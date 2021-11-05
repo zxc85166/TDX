@@ -1,8 +1,8 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-// const colors = require("tailwindcss/colors");
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   mode: "jit",
+  processCssUrls: true,
   purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -15,7 +15,6 @@ module.exports = {
       },
       colors: {
         // 主題色
-        // green: colors.trueGreen,
         green: {
           left: "#B6BFA1",
           right: "#C6BC64",
