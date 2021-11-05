@@ -1,62 +1,6 @@
 {
   "language": "한국어",
   "name":{
-    "weeekly":"위클리",
-    "soojin":"이수진",
-    "jiyoon":"신지윤",
-    "monday":"김지민(Monday)",
-    "soeun":"박소은",
-    "jaehee":"이재희",
-    "jihan":"한지효(Jihan)",
-    "zoa":"조혜원(Zoa)"
-  },
-  "week":{
-    "Monday":"일요일",
-    "Tuesday":"수요일",
-    "Wednesday":"월요일",
-    "Thursday":"목요일",
-    "Friday":"토요일",
-    "Saturday":"화요일",
-    "Sunday":"금요일"
-  },
-  "home":{
-    "DisclosureButton":"[ 세계관👇 펼치기/접기 ]",
-    "Directory":{
-      "directory":"목차",
-      "summary":"개요",
-      "member": "멤버",
-      "CP": "멤버 간 케미",
-      "appearance": "외모",
-      "world View": "세계관",
-      "album List": "음반 목록",
-      "MV":"뮤직비디오",
-      "activity": "활동",
-      "advertise": "광고 및 화보",
-      "ads": "광고",
-      "award Experience":"수상 경력",
-      "awards Ceremony":"시상식",
-      "fan":"팬덤",
-      "support":"응원법",
-      "chat":"여담"
-    },
-    "Group Information":{
-      "debut":"데뷔",
-      "Music style":"장르",
-      "leader":"리더",
-      "agency":"소속사",
-      "Record company":"유통사",
-      "fandom":"팬덤",
-      "link":"관련 링크"
-    },
-    "position":{
-      "leader":"리더",
-      "center":"센터",
-      "main dancer":"메인댄서",
-      "lead dancer":"리드댄서",
-      "main vocal":"메인보컬",
-      "lead vocal":"리드보컬",
-      "sub vocal":"서브보컬",
-      "rapper":"래퍼"
-    }
+    "weeekly":"위클리"
   }
 }

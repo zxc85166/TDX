@@ -6,10 +6,8 @@ const { t } = useI18n();
 
 <template>
   <div>
-    <div class="h-screen w-screen bg-Home bg-cover bg-fixed">
-      <div class="h-screen w-screen">
-        <div class="md:px-[232px] md:py-[140px]">123</div>
-      </div>
+    <div class="h-screen w-screen bg-Home bg-cover">
+      <div class="bg-white opacity-50 w-[1200px] h-[200px] rounded-[10px]">123</div>
     </div>
   </div>
 </template>

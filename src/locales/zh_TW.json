@@ -1,62 +1,6 @@
 {
   "language": "中文",
   "name":{
-    "weeekly":"微顆粒",
-    "soojin": "李受珍",
-    "jiyoon": "申智阭",
-    "monday": "金智敏(Monday)",
-    "soeun": "朴昭垠",
-    "jaehee": "李在希",
-    "jihan": "韓智效(Jihan)",
-    "zoa": "趙慧洹(Zoa)"
-  },
-  "week":{
-    "Monday":"星期一",
-    "Tuesday":"星期二",
-    "Wednesday":"星期三",
-    "Thursday":"星期四",
-    "Friday":"星期五",
-    "Saturday":"星期六",
-    "Sunday":"星期日"
-  },
-  "home":{
-    "DisclosureButton":"[ 世界觀👇 摺疊/展開 ]",
-    "Directory": {
-      "directory": "目錄",
-      "summary": "概要",
-      "member": "成員",
-      "CP": "成員間的CP",
-      "appearance": "外貌",
-      "world View": "世界觀",
-      "album List": "專輯列表",
-      "MV":"MV",
-      "activity": "活動",
-      "advertise": "廣告及畫報",
-      "ads": "廣告",
-      "award Experience":"獲獎經歷",
-      "awards Ceremony":"頒獎典禮",
-      "fan":"粉絲",
-      "support":"應援法",
-      "chat":"閒談"
-    },
-    "Group Information":{
-      "debut":"出道",
-      "Music style":"曲風",
-      "leader":"隊長",
-      "agency":"經紀公司",
-      "Record company":"唱片公司",
-      "fandom":"飯圈",
-      "link":"外部連結"
-    },
-    "position":{
-      "leader":"隊長",
-      "center":"中心",
-      "main dancer":"主舞",
-      "lead dancer":"領舞",
-      "main vocal":"主唱",
-      "lead vocal":"領唱",
-      "sub vocal":"副唱",
-      "rapper":"rapper"
-    }
+    "weeekly":"微顆粒"
   }
 }

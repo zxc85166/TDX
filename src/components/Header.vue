@@ -13,7 +13,7 @@
                 <a class="btn btn-ghost btn-lg rounded-btn text-2xl">美食饗宴</a>
             </div>
         </div>
-        <div class="flex-none">
+        <div class="flex-none pr-[50px]">
             <button class="btn btn-square btn-ghost">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
