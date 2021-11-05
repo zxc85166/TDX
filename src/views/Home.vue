@@ -13,3 +13,9 @@ const { t } = useI18n();
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.bg-Home {
+  background-image: url("@/assets/images/home.png");
+}
+</style>

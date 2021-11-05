@@ -9,10 +9,10 @@ module.exports = {
       fontFamily: {
         sans: ['"Inter var"', ...defaultTheme.fontFamily.sans],
       },
-      backgroundImage: {
-        Home: "url('./src/assets/images/Home.png')",
-        Tour1: "url('./src/assets/images/Tour1.png')",
-      },
+      // backgroundImage: {
+      //   Home: "url('./src/assets/images/Home.png')",
+      //   Tour1: "url('./src/assets/images/Tour1.png')",
+      // },
       colors: {
         // 主題色
         green: {
