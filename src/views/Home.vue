@@ -6,8 +6,6 @@ const { t } = useI18n();
 
 <template>
   <div class="bg-gray-200">
-    <div
-      class="max-w-screen-xl bg-white border border-gray-300 px-4 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 grid grid-flow-row auto-rows-max gap-y-6"
-    ></div>
+    <div class="mx-auto h-screen w-screen bg-home-img bg-cover bg-center"></div>
   </div>
 </template>
