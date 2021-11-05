@@ -1,4 +1,5 @@
 <script setup>
+import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import { useI18n } from 'vue-i18n'
 import i18n from '@/components/i18n.vue'
@@ -36,6 +37,7 @@ function scrollToTop() {
   </div>
 
   <main>
+    <Header />
     <router-view />
     <Footer />
   </main>

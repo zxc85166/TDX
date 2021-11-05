@@ -5,7 +5,11 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="bg-gray-200">
-    <div class="mx-auto h-screen w-screen bg-home-img bg-cover bg-center"></div>
+  <div>
+    <div class="h-screen w-screen bg-Home bg-cover bg-fixed">
+      <div class="h-screen w-screen">
+        <div class="md:px-[232px] md:py-[140px]">123</div>
+      </div>
+    </div>
   </div>
 </template>

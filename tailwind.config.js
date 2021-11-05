@@ -1,5 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
+// const colors = require("tailwindcss/colors");
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   mode: "jit",
@@ -10,19 +10,27 @@ module.exports = {
         sans: ['"Inter var"', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
-        "home-img": "url('@/assets/images/bg-img.jpg')",
+        Home: "url('@/assets/images/Home.png')",
+        Tour1: "url('@/assets/images/Tour1.png')",
       },
       colors: {
-        // BG灰
-        gray: colors.trueGray,
-        gray: {
-          100: "#F7F8FA",
-          200: "#F2F3F5",
+        // 主題色
+        // green: colors.trueGreen,
+        green: {
+          left: "#B6BFA1",
+          right: "#C6BC64",
         },
-        // 主題紫
-        purple: colors.truePurple,
-        purple: {
-          100: "#5D5FEF",
+        gray: {
+          DEFAULT: "#888888",
+        },
+        blue: {
+          DEFAULT: "#0C3255",
+        },
+        red: {
+          DEFAULT: "#A0251D",
+        },
+        skin: {
+          DEFAULT: "#F0874C",
         },
       },
     },
