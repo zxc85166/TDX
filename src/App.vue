@@ -50,13 +50,9 @@ function scrollToTop() {
         </div>
         <div class="hidden px-2 mx-2 navbar-center lg:flex">
           <div class="flex items-stretch">
-            <router-link to="Soojin" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.soojin') }}</router-link>
-            <router-link to="Jiyoon" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.jiyoon') }}</router-link>
-            <router-link to="Monday" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.monday') }}</router-link>
-            <router-link to="Soeun" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.soeun') }}</router-link>
-            <router-link to="Jaehee" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.jaehee') }}</router-link>
-            <router-link to="Jihan" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.jihan') }}</router-link>
-            <router-link to="Zoa" class="btn btn-ghost btn-sm rounded-btn">{{ t('name.zoa') }}</router-link>
+            <router-link to="Soojin" class="btn btn-ghost btn-sm rounded-btn">台灣景點</router-link>
+            <router-link to="Jiyoon" class="btn btn-ghost btn-sm rounded-btn">美食住宿</router-link>
+            <router-link to="Monday" class="btn btn-ghost btn-sm rounded-btn">景點交通</router-link>
           </div>
         </div>
         <div class="navbar-end"></div>
@@ -83,25 +79,9 @@ function scrollToTop() {
       <MenuItems class="flex-none lg:hidden">
         <MenuItem>
           <div class="flex flex-col">
-            <router-link
-              to="Soojin"
-              class="btn btn-ghost btn-sm rounded-btn"
-            >{{ t('navbar.soojin') }}</router-link>
-            <router-link
-              to="Jiyoon"
-              class="btn btn-ghost btn-sm rounded-btn"
-            >{{ t('navbar.jiyoon') }}</router-link>
-            <router-link
-              to="Monday"
-              class="btn btn-ghost btn-sm rounded-btn"
-            >{{ t('navbar.monday') }}</router-link>
-            <router-link to="Soeun" class="btn btn-ghost btn-sm rounded-btn">{{ t('navbar.soeun') }}</router-link>
-            <router-link
-              to="Jaehee"
-              class="btn btn-ghost btn-sm rounded-btn"
-            >{{ t('navbar.jaehee') }}</router-link>
-            <router-link to="Jihan" class="btn btn-ghost btn-sm rounded-btn">{{ t('navbar.jihan') }}</router-link>
-            <router-link to="Zoa" class="btn btn-ghost btn-sm rounded-btn">{{ t('navbar.zoa') }}</router-link>
+            <router-link to="Soojin" class="btn btn-ghost btn-sm rounded-btn">台灣景點</router-link>
+            <router-link to="Jiyoon" class="btn btn-ghost btn-sm rounded-btn">美食住宿</router-link>
+            <router-link to="Monday" class="btn btn-ghost btn-sm rounded-btn">景點交通</router-link>
           </div>
         </MenuItem>
       </MenuItems>
