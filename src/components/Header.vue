@@ -8,10 +8,9 @@
         </div>
         <div class="flex-1 px-2 mx-2">
             <div class="items-stretch hidden lg:flex">
-                <a class="btn btn-ghost btn-sm rounded-btn">Home</a>
-                <a class="btn btn-ghost btn-sm rounded-btn">Portfolio</a>
-                <a class="btn btn-ghost btn-sm rounded-btn">About</a>
-                <a class="btn btn-ghost btn-sm rounded-btn">Contact</a>
+                <a class="btn btn-ghost btn-sm rounded-btn">旅遊景點</a>
+                <a class="btn btn-ghost btn-sm rounded-btn">推薦住宿</a>
+                <a class="btn btn-ghost btn-sm rounded-btn">美食饗宴</a>
             </div>
         </div>
         <div class="flex-none">
