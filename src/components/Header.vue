@@ -12,9 +12,9 @@
             </div>
         </div>
         <div class="flex items-center justify-center px-2 mx-2">
-            <a class="btn btn-ghost btn-lg rounded-btn">首頁</a>
-            <a class="btn btn-ghost btn-lg rounded-btn">景點導覽</a>
-            <a class="btn btn-ghost btn-lg rounded-btn">觀光活動</a>
+            <router-link to="/" class="btn btn-ghost btn-lg rounded-btn">首頁</router-link>
+            <router-link to="Guide" class="btn btn-ghost btn-lg rounded-btn">景點導覽</router-link>
+            <router-link to="/" class="btn btn-ghost btn-lg rounded-btn">觀光活動</router-link>
         </div>
     </div>
 </template>

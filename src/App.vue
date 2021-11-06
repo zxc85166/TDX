@@ -34,6 +34,6 @@ function scrollToTop() {
 </template>
 <style lang="scss">
 .router-link-exact-active {
-  color: #4e5eac;
+  color: #08a6bb;
 }
 </style>
