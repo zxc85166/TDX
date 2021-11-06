@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { LocationMarkerIcon } from '@heroicons/vue/solid'
+import { LocationMarkerIcon, PhotographIcon } from '@heroicons/vue/solid'
 import { ClockIcon, XIcon } from '@heroicons/vue/outline'
 const { t } = useI18n();
 const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
@@ -100,11 +100,11 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
             <div class="justify-center card-actions">
               <label
                 for="my-modal-2"
-                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main font-black w-2/3 modal-button text-center cursor-pointer"
+                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
               >了解更多</label>
               <input type="checkbox" id="my-modal-2" class="modal-toggle" />
               <div class="modal">
-                <div class="modal-box">
+                <div class="modal-box max-w-3xl rounded-lg">
                   <div class="modal-action mt-0">
                     <label
                       for="my-modal-2"
@@ -122,6 +122,10 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                     <p
                       class="text-gray-content"
                     >紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。</p>
+                    <div class="flex items-center justify-end py-5">
+                      <PhotographIcon class="h-5 w-5 text-blue-main" />
+                      <p class="text-blue-main ml-2">相片(12)></p>
+                    </div>
                   </div>
                 </div>
               </div>
