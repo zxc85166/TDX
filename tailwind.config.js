@@ -14,22 +14,9 @@ module.exports = {
       //   Tour1: "url('./src/assets/images/Tour1.png')",
       // },
       colors: {
-        // 主題色
-        green: {
-          left: "#B6BFA1",
-          right: "#C6BC64",
-        },
-        gray: {
-          DEFAULT: "#888888",
-        },
+        // 主題藍色
         blue: {
-          DEFAULT: "#0C3255",
-        },
-        red: {
-          DEFAULT: "#A0251D",
-        },
-        skin: {
-          DEFAULT: "#F0874C",
+          main: "#08A6BB",
         },
       },
     },
