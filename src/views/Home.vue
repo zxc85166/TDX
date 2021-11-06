@@ -87,13 +87,13 @@ const { t } = useI18n();
           <div class="flex items-center">
             <h2 class="card-title">正濱漁港懷舊碼頭</h2>
             <ClockIcon class="h-5 w-5 text-blue-main" />
-            <span class="text-gray-content">全天候開放</span>
+            <span class="text-gray-content text-sm">全天候開放</span>
           </div>
           <div class="flex items-center">
             <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
             <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
           </div>
-          <div class="justify-end card-actions">
+          <div class="justify-center card-actions">
             <button class="btn btn-secondary">More info</button>
           </div>
         </div>

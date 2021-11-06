@@ -28,11 +28,9 @@ function scrollToTop() {
       </div>
     </div>
   </div>
-  <main>
-    <Header />
-    <router-view />
-    <Footer />
-  </main>
+  <Header />
+  <router-view />
+  <Footer />
 </template>
 <style lang="scss">
 .router-link-exact-active {
