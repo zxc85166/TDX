@@ -3,7 +3,7 @@
 </script>
 <template>
     <div class="grid grid-rows-2 md:grid-rows-1 grid-flow-col justify-between mx-[5%]">
-        <div class="flex items-center gap-3 px-2 mx-2">
+        <div class="flex items-center justify-center gap-3 px-2 mx-2">
             <div>
                 <img class="w-[40px]" src="@/assets/images/logo.png" />
             </div>

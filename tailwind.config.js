@@ -18,6 +18,14 @@ module.exports = {
         blue: {
           main: "#08A6BB",
         },
+        // 字體灰色
+        gray: {
+          content: "#6F7789",
+          content_light: "#AEAEAE",
+        },
+      },
+      dropShadow: {
+        "3xl": "0 35px 35px rgba(0, 0, 0, 0.25)",
       },
     },
     container: {
