@@ -1,10 +1,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { LocationMarkerIcon } from '@heroicons/vue/solid'
-import { ClockIcon } from '@heroicons/vue/outline'
+import { ClockIcon, XIcon } from '@heroicons/vue/outline'
 const { t } = useI18n();
 const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </script>
 
 <template>
   <div class="grid place-items-center bg-Home h-[599px] bg-cover bg-center bg-fixed">
@@ -101,6 +101,30 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
               <button
                 class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main font-black w-2/3"
               >了解更多</button>
+              <label for="my-modal-2" class="btn btn-primary modal-button">open modal</label>
+              <input type="checkbox" id="my-modal-2" class="modal-toggle" />
+              <div class="modal">
+                <div class="modal-box">
+                  <div class="modal-action mt-0">
+                    <label
+                      for="my-modal-2"
+                      class="bg-gray-500 hover:bg-gray-400 rounded h-8 w-8 grid place-items-center cursor-pointer"
+                    >
+                      <XIcon class="h-5 w-5 text-white" />
+                    </label>
+                  </div>
+                  <div>
+                    <h1 class="text-2xl">紫坪</h1>
+                    <div class="flex items-center py-5">
+                      <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
+                      <p class="text-gray-content ml-2">臺東縣951綠島鄉溫泉路256號</p>
+                    </div>
+                    <p
+                      class="text-gray-content"
+                    >紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
