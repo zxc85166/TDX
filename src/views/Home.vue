@@ -4,14 +4,14 @@ import { LocationMarkerIcon } from '@heroicons/vue/solid'
 import { ClockIcon } from '@heroicons/vue/outline'
 const { t } = useI18n();
 const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </script>
 
 <template>
   <div class="grid place-items-center bg-Home h-[599px] bg-cover bg-center bg-fixed">
     <div class="grid place-items-center gap-6">
       <div>
         <span
-          class="text-white font-bold text-xl md:text-5xl filter drop-shadow-lg italic"
+          class="text-white font-bold text-xl md:text-5xl filter drop-shadow-4xl italic"
         >Welcome to Travel Taiwan</span>
       </div>
       <div class="flex gap-[19px]">
@@ -98,7 +98,9 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
               <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
             </div>
             <div class="justify-center card-actions">
-              <button class="ring-4 ring-blue-main rounded text-blue-main font-black w-2/3">了解更多</button>
+              <button
+                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main font-black w-2/3"
+              >了解更多</button>
             </div>
           </div>
         </div>
@@ -111,7 +113,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
         <p>各種不同的活動內容</p>
         <p>邀請您一銅來共襄盛舉！</p>
       </div>
-      <div class="grid grid-cols-4 justify-between gap-8">
+      <div class="grid grid-cols-4 overflow-x-hidden">
         <div v-for="s in 4">
           <div class="card shadow-xl w-[256px] h-[328px]">
             <img class="bg-center" :src="bgg" />
@@ -121,10 +123,21 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
       </div>
     </div>
   </div>
+  <!-- footer img -->
+  <div class="bg-footer h-[332px] w-full bg-cover grid place-items-center text-center">
+    <span class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl">
+      <p>“To travel is to live”</p>
+      <br />
+      <p>– Hans Christian Anderson-</p>
+    </span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .bg-Home {
   background-image: url("@/assets/images/home.png");
+}
+.bg-footer {
+  background-image: url("@/assets/images/footer.png");
 }
 </style>

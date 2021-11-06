@@ -28,8 +28,10 @@ module.exports = {
           main: "#313131",
         },
       },
+
       dropShadow: {
-        "3xl": "0 35px 35px rgba(0, 0, 0, 0.25)",
+        "3xl": "0 4px 1.5px rgba(0, 0, 0, 0.30)",
+        "4xl": "12px 12px 7px rgba(0, 0, 0, 0.60)",
       },
     },
     container: {
