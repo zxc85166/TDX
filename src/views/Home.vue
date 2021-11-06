@@ -74,8 +74,8 @@ const { t } = useI18n();
       <p>台灣的各個美景，都美不勝收。</p>
       <p>等你一同來發現這座寶島的奧妙！</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-4">
-      <div class="card bordered shadow-lg">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div v-for="s in 8" class="card bordered shadow-lg">
         <figure>
           <img src="https://picsum.photos/id/1005/400/250" />
         </figure>
