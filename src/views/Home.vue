@@ -4,7 +4,7 @@ import { LocationMarkerIcon } from '@heroicons/vue/solid'
 import { ClockIcon, XIcon } from '@heroicons/vue/outline'
 const { t } = useI18n();
 const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </script>
+</script>
 
 <template>
   <div class="grid place-items-center bg-Home h-[599px] bg-cover bg-center bg-fixed">
@@ -98,10 +98,10 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
               <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
             </div>
             <div class="justify-center card-actions">
-              <button
-                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main font-black w-2/3"
-              >了解更多</button>
-              <label for="my-modal-2" class="btn btn-primary modal-button">open modal</label>
+              <label
+                for="my-modal-2"
+                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main font-black w-2/3 modal-button text-center cursor-pointer"
+              >了解更多</label>
               <input type="checkbox" id="my-modal-2" class="modal-toggle" />
               <div class="modal">
                 <div class="modal-box">
