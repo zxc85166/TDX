@@ -15,7 +15,7 @@ function scrollToTop() {
 
 <template>
   <!-- Gotop -->
-  <div class="fixed right-5 bottom-5 z-50">
+  <div class="fixed right-5 bottom-20 z-50 drop-shadow-lg">
     <div class="grid gap-2">
       <div data-tip="切換語言" class="tooltip">
         <i18n />

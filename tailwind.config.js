@@ -24,6 +24,9 @@ module.exports = {
           content: "#6F7789",
           content_light: "#AEAEAE",
         },
+        black: {
+          main: "#313131",
+        },
       },
       dropShadow: {
         "3xl": "0 35px 35px rgba(0, 0, 0, 0.25)",
