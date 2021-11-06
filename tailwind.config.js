@@ -20,6 +20,7 @@ module.exports = {
         },
         // 字體灰色
         gray: {
+          h1: "#525151",
           content: "#6F7789",
           content_light: "#AEAEAE",
         },

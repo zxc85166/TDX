@@ -1,5 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { LocationMarkerIcon } from '@heroicons/vue/solid'
+import { ClockIcon } from '@heroicons/vue/outline'
 const { t } = useI18n();
 </script>
 
@@ -68,8 +70,8 @@ const { t } = useI18n();
       </div>
     </div>
   </div>
-  <div class="my-28 mx-20">
-    <div class="text-gray-content_light font-bold mb-12 ml-5">
+  <div class="my-28 mx-20 font-black">
+    <div class="text-gray-content_light mb-12 ml-5">
       <span class="text-blue-main text-3xl flex mb-6">熱門景點</span>
       <p>台灣的各個美景，都美不勝收。</p>
       <p>等你一同來發現這座寶島的奧妙！</p>
@@ -77,14 +79,20 @@ const { t } = useI18n();
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <div v-for="s in 8" class="card bordered shadow-lg">
         <figure>
-          <img src="https://picsum.photos/id/1005/400/250" />
+          <img
+            src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+          />
         </figure>
         <div class="card-body">
-          <h2 class="card-title">
-            Top image
-            <div class="badge mx-2 badge-secondary">NEW</div>
-          </h2>
-          <p>臺東縣951綠島鄉</p>
+          <div class="flex items-center">
+            <h2 class="card-title">正濱漁港懷舊碼頭</h2>
+            <ClockIcon class="h-5 w-5 text-blue-main" />
+            <span class="text-gray-content">全天候開放</span>
+          </div>
+          <div class="flex items-center">
+            <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
+            <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
+          </div>
           <div class="justify-end card-actions">
             <button class="btn btn-secondary">More info</button>
           </div>
