@@ -2,7 +2,33 @@
 import { useI18n } from 'vue-i18n'
 import { LocationMarkerIcon, PhotographIcon } from '@heroicons/vue/solid'
 import { ClockIcon, XIcon } from '@heroicons/vue/outline'
+import { ref } from 'vue'
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from '@headlessui/vue'
 const { t } = useI18n();
+
+const people = [
+  { id: 1, name: '所有類別', unavailable: false },
+  { id: 2, name: '類別1', unavailable: false },
+  { id: 3, name: '類別2', unavailable: false },
+  { id: 4, name: '類別3', unavailable: false },
+  { id: 5, name: '類別4', unavailable: false },
+]
+const selectedPerson = ref(people[0])
+
+const cities = [
+  { id: 1, name: '所有縣市', unavailable: false },
+  { id: 2, name: '高雄', unavailable: false },
+  { id: 3, name: '台北', unavailable: false },
+  { id: 4, name: '台中', unavailable: false },
+  { id: 5, name: '嘉義', unavailable: false },
+]
+const selectedCitie = ref(cities[0])
+
 const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
 </script>
 
@@ -17,52 +43,67 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
       <div class="flex gap-[19px]">
         <!-- 類別 -->
         <div class="dropdown dropdown-hover">
-          <div
-            tabindex="0"
-            class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0"
-          >
-            <span class="mx-auto">類別</span>
-            <span>▼</span>
-          </div>
-          <ul
-            tabindex="0"
-            class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
-          >
-            <li class="hover:bg-blue-main hover:text-white rounded-lg">
-              <a>Item 1</a>
-            </li>
-            <li class="hover:bg-blue-main hover:text-white rounded-lg">
-              <a>Item 2</a>
-            </li>
-            <li class="hover:bg-blue-main hover:text-white rounded-lg">
-              <a>Item 3</a>
-            </li>
-          </ul>
+          <Listbox v-model="selectedPerson">
+            <ListboxButton>
+              <div
+                tabindex="0"
+                class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
+              >
+                <span class="mx-auto">{{ selectedPerson.name }}</span>
+                <span>▼</span>
+              </div>
+            </ListboxButton>
+            <ListboxOptions
+              tabindex="0"
+              class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
+            >
+              <ListboxOption
+                v-for="person in people"
+                :key="person"
+                :value="person"
+                :disabled="person.unavailable"
+              >
+                <li class="hover:bg-blue-main rounded-lg">
+                  <a>
+                    <span class="text-gray-content font-semibold mx-auto">{{ person.name }}</span>
+                  </a>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </Listbox>
         </div>
         <!-- 所有縣市 -->
         <div class="dropdown dropdown-hover">
-          <div
-            tabindex="0"
-            class="btn w-[175px] md:w-[297px] bg-base-100 hover:bg-base-100 text-gray-content border-0"
-          >
-            <span class="mx-auto">所有縣市</span>
-            <span>▼</span>
-          </div>
-          <ul
-            tabindex="0"
-            class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[175px] md:w-[297px] top-[40px]"
-          >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Item 2</a>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul>
+          <Listbox v-model="selectedCitie">
+            <ListboxButton>
+              <div
+                tabindex="0"
+                class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
+              >
+                <span class="mx-auto">{{ selectedCitie.name }}</span>
+                <span>▼</span>
+              </div>
+            </ListboxButton>
+            <ListboxOptions
+              tabindex="0"
+              class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
+            >
+              <ListboxOption
+                v-for="citie in cities"
+                :key="citie"
+                :value="citie"
+                :disabled="citie.unavailable"
+              >
+                <li class="hover:bg-blue-main rounded-lg">
+                  <a>
+                    <p class="text-gray-content font-semibold mx-auto">{{ citie.name }}</p>
+                  </a>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </Listbox>
         </div>
+        <!-- 搜尋按鈕 -->
         <div class="pt-1">
           <a href="#">
             <img src="@/assets/images/search.png" alt="搜尋按鈕" />
@@ -182,7 +223,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
       <div class="text-gray-content_light mb-12 ml-5">
         <span class="text-blue-main text-3xl flex mb-6">活動類別</span>
         <p>各種不同的活動內容</p>
-        <p>邀請您一銅來共襄盛舉！</p>
+        <p>邀請您一同來共襄盛舉！</p>
       </div>
       <div class="flex overflow-auto no-scrollbar">
         <div v-for="s in 4">
