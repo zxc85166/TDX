@@ -72,7 +72,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
     </div>
   </div>
   <!-- api -->
-  <div class="mx-20 font-black">
+  <div class="md:mx-20 mx-9 font-black">
     <!-- 熱門景點 -->
     <div class="my-28">
       <div class="text-gray-content_light mb-12 ml-5">
@@ -90,7 +90,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
           <div class="card-body p-5">
             <div class="flex items-center">
               <h2 class="card-title">正濱漁港懷舊碼頭</h2>
-              <ClockIcon class="h-5 w-5 text-blue-main mx-auto" />
+              <ClockIcon class="md:h-5 md:w-5 h-4 w-4 mx-auto" />
               <span class="text-gray-content text-sm">全天候開放</span>
             </div>
             <div class="flex items-center">
@@ -124,9 +124,11 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                     <p
                       class="text-gray-content"
                     >紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。</p>
-                    <div class="flex items-center justify-end pb-5">
-                      <PhotographIcon class="h-5 w-5 text-blue-main" />
-                      <p class="text-blue-main ml-2">相片(12)></p>
+                    <div class="grid justify-end pb-5 pt-6 md:pt-0">
+                      <div class="items-center flex cursor-pointer">
+                        <PhotographIcon class="h-5 w-5 text-blue-main" />
+                        <p class="text-blue-main ml-2">相片(12)></p>
+                      </div>
                     </div>
                     <!-- 圖片 -->
                     <div class="grid grid-rows-2 grid-cols-3 gap-4">
@@ -148,7 +150,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                     </div>
                     <!-- 電話等 -->
                     <div
-                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row justify-start py-5 gap-5"
+                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
                     >
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
@@ -182,9 +184,9 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
         <p>各種不同的活動內容</p>
         <p>邀請您一銅來共襄盛舉！</p>
       </div>
-      <div class="grid grid-cols-4 overflow-x-hidden">
+      <div class="flex overflow-auto no-scrollbar">
         <div v-for="s in 4">
-          <div class="card shadow-xl w-[256px] h-[328px]">
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="bg-center" :src="bgg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">年度活動</div>

@@ -18,7 +18,6 @@
             <router-link to="/" class="btn btn-ghost btn-lg rounded-btn">觀光活動</router-link>
         </div>
     </div>
-\
 </template>
 <style lang="scss" scoped>
 .bg-logo {

@@ -1,5 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-/** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   mode: "jit",
   processCssUrls: true,
@@ -50,5 +51,14 @@ module.exports = {
     require("@tailwindcss/line-clamp"),
     require("@tailwindcss/aspect-ratio"),
     require("daisyui"),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        //活動類別左右滾動時滾動條隱藏
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+      };
+      addUtilities(newUtilities);
+    }),
   ],
 };
