@@ -244,9 +244,9 @@ function GetAuthorizationHeader() {
         <div
           v-for="(picture, index) in pictureURL"
           :key="picture.index"
-          class="card bordered shadow-lg"
+          class="card bordered shadow-lg max-w-[350px]"
         >
-          <div>
+          <div class="h-[184px]">
             <img
               class="object-cover w-full h-full"
               :src="picture.PictureUrl1"
@@ -254,9 +254,9 @@ function GetAuthorizationHeader() {
           </div>
 
           <div class="card-body p-5">
-            <div class="flex items-center">
+            <div class="flex items-center justify-between">
               <h2 class="card-title">正濱漁港懷舊碼頭</h2>
-              <ClockIcon class="md:h-5 md:w-5 h-4 w-4 mx-auto" />
+              <ClockIcon class="md:h-5 md:w-5 h-4 w-4 ml-2" />
               <span class="text-gray-content text-sm">全天候開放</span>
             </div>
             <div class="flex items-center">
