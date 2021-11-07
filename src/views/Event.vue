@@ -7,7 +7,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
 </script>
 
 <template>
-  <div class="grid place-items-center bg-guide h-[599px] bg-cover bg-center bg-fixed">
+  <div class="grid place-items-center bg-event h-[599px] bg-cover bg-center bg-fixed">
     <div class="grid place-items-center gap-6">
       <div>
         <span
@@ -205,8 +205,8 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
 </template>
 
 <style lang="scss" scoped>
-.bg-guide {
-  background-image: url("@/assets/images/guide.png");
+.bg-event {
+  background-image: url("@/assets/images/event.png");
 }
 .bg-footer {
   background-image: url("@/assets/images/footer.png");
