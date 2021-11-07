@@ -1,96 +1,116 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
-import axios from 'axios';
-import { LocationMarkerIcon, PhotographIcon } from '@heroicons/vue/solid';
-import { ClockIcon, XIcon } from '@heroicons/vue/outline';
-import jsSHA from "jssha"
-import { ref } from 'vue';
+import { useI18n } from "vue-i18n";
+import axios from "axios";
+import { LocationMarkerIcon, PhotographIcon } from "@heroicons/vue/solid";
+import { ClockIcon, XIcon } from "@heroicons/vue/outline";
+import jsSHA from "jssha";
+import { ref } from "vue";
 import {
   Listbox,
   ListboxButton,
   ListboxOptions,
   ListboxOption,
-} from '@headlessui/vue'
+} from "@headlessui/vue";
 const { t } = useI18n();
 // api儲存區
 const pictureURL = ref([]);
-const bgg = ref('');
+const bgg = ref("");
 //
 const people = [
-  { id: 0, name: '所有類別', unavailable: false },
-  { id: 2, name: '類別1', unavailable: false },
-  { id: 3, name: '類別2', unavailable: false },
-  { id: 4, name: '類別3', unavailable: false },
-  { id: 5, name: '類別4', unavailable: false },
-]
-const selectedPerson = ref(people[0])
+  { id: 0, name: "所有類別", unavailable: false },
+  { id: 2, name: "類別1", unavailable: false },
+  { id: 3, name: "類別2", unavailable: false },
+  { id: 4, name: "類別3", unavailable: false },
+  { id: 5, name: "類別4", unavailable: false },
+];
+const selectedPerson = ref(people[0]);
 
 const cities = [
-  { id: 1, name: '所有縣市', value: 'All' },
-  { id: 2, name: '臺北市', value: 'Taipei' },
-  { id: 3, name: '新北市', value: 'NewTaipei' },
-  { id: 4, name: '桃園市', value: 'Taoyuan' },
-  { id: 5, name: '臺中市', value: 'Taichung' },
-  { id: 6, name: '臺南市', value: 'Tainan' },
-  { id: 7, name: '高雄市', value: 'Kaohsiung' },
-  { id: 8, name: '基隆市', value: 'Keelung' },
-  { id: 9, name: '新竹市', value: 'Hsinchu' },
-  { id: 10, name: '新竹縣', value: 'HsinchuCounty' },
-  { id: 11, name: '苗栗縣', value: 'MiaoliCounty' },
-  { id: 12, name: '彰化縣', value: 'ChanghuaCounty' },
-  { id: 13, name: '南投縣', value: 'NantouCounty' },
-  { id: 14, name: '雲林縣', value: 'YunlinCounty' },
-  { id: 15, name: '嘉義縣', value: 'ChiayiCounty' },
-  { id: 16, name: '嘉義市', value: 'Chiayi' },
-  { id: 17, name: '屏東縣', value: 'PingtungCounty' },
-  { id: 18, name: '宜蘭縣', value: 'YilanCounty' },
-  { id: 19, name: '花蓮縣', value: 'HualienCounty' },
-  { id: 20, name: '臺東縣', value: 'TaitungCounty' },
-  { id: 21, name: '金門縣', value: 'KinmenCounty' },
-  { id: 22, name: '澎湖縣', value: 'PenghuCounty' },
-  { id: 23, name: '連江縣', value: 'LienchiangCounty' },
-]
-const selectedCity = ref(cities[0])
+  { id: 1, name: "所有縣市", value: "All" },
+  { id: 2, name: "臺北市", value: "Taipei" },
+  { id: 3, name: "新北市", value: "NewTaipei" },
+  { id: 4, name: "桃園市", value: "Taoyuan" },
+  { id: 5, name: "臺中市", value: "Taichung" },
+  { id: 6, name: "臺南市", value: "Tainan" },
+  { id: 7, name: "高雄市", value: "Kaohsiung" },
+  { id: 8, name: "基隆市", value: "Keelung" },
+  { id: 9, name: "新竹市", value: "Hsinchu" },
+  { id: 10, name: "新竹縣", value: "HsinchuCounty" },
+  { id: 11, name: "苗栗縣", value: "MiaoliCounty" },
+  { id: 12, name: "彰化縣", value: "ChanghuaCounty" },
+  { id: 13, name: "南投縣", value: "NantouCounty" },
+  { id: 14, name: "雲林縣", value: "YunlinCounty" },
+  { id: 15, name: "嘉義縣", value: "ChiayiCounty" },
+  { id: 16, name: "嘉義市", value: "Chiayi" },
+  { id: 17, name: "屏東縣", value: "PingtungCounty" },
+  { id: 18, name: "宜蘭縣", value: "YilanCounty" },
+  { id: 19, name: "花蓮縣", value: "HualienCounty" },
+  { id: 20, name: "臺東縣", value: "TaitungCounty" },
+  { id: 21, name: "金門縣", value: "KinmenCounty" },
+  { id: 22, name: "澎湖縣", value: "PenghuCounty" },
+  { id: 23, name: "連江縣", value: "LienchiangCounty" },
+];
+const selectedCity = ref(cities[0]);
 // axios
 function getAttractions() {
   axios({
-    method: 'get',
+    method: "get",
     url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$select=Picture&$top=8&$format=JSON`,
-    headers: GetAuthorizationHeader()
+    headers: GetAuthorizationHeader(),
   })
     .then((res) => {
       const data = res.data;
       // const routeData = data.filter((item) => item.Name === "紫坪")
-      bgg.value = data[0].Picture.PictureUrl1;
-      for (let n = 0; n < data.length; i++) {
-        pictureURL.value.push(data[0].Picture.PictureUrl1);
-      }
     })
-    .catch((error) => console.log('error', error))
+    .catch((error) => console.log("error", error));
 }
 // API 驗證用
 function GetAuthorizationHeader() {
-  var AppID = '2d59acd2cea44ff7b241a386c39ab6f7';
-  var AppKey = 'yMrGHJnuiwFHwqspCCBUVqyjCD0';
+  var AppID = "2d59acd2cea44ff7b241a386c39ab6f7";
+  var AppKey = "yMrGHJnuiwFHwqspCCBUVqyjCD0";
 
   var GMTString = new Date().toGMTString();
-  var ShaObj = new jsSHA('SHA-1', 'TEXT');
-  ShaObj.setHMACKey(AppKey, 'TEXT');
-  ShaObj.update('x-date: ' + GMTString);
-  var HMAC = ShaObj.getHMAC('B64');
-  var Authorization = 'hmac username=\"' + AppID + '\", algorithm=\"hmac-sha1\", headers=\"x-date\", signature=\"' + HMAC + '\"';
-  return { 'Authorization': Authorization, 'X-Date': GMTString /*,'Accept-Encoding': 'gzip'*/ }; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
+  var ShaObj = new jsSHA("SHA-1", "TEXT");
+  ShaObj.setHMACKey(AppKey, "TEXT");
+  ShaObj.update("x-date: " + GMTString);
+  var HMAC = ShaObj.getHMAC("B64");
+  var Authorization =
+    'hmac username="' +
+    AppID +
+    '", algorithm="hmac-sha1", headers="x-date", signature="' +
+    HMAC +
+    '"';
+  return {
+    Authorization: Authorization,
+    "X-Date": GMTString /*,'Accept-Encoding': 'gzip'*/,
+  }; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
 }
-
 </script>
 
 <template>
-  <div class="grid place-items-center bg-Home h-[599px] bg-cover bg-center bg-fixed">
+  <div
+    class="
+      grid
+      place-items-center
+      bg-Home
+      h-[599px]
+      bg-cover bg-center bg-fixed
+    "
+  >
     <div class="grid place-items-center gap-6">
       <div>
         <span
-          class="text-white font-bold text-xl md:text-5xl filter drop-shadow-4xl italic"
-        >Welcome to Travel Taiwan</span>
+          class="
+            text-white
+            font-bold
+            text-xl
+            md:text-5xl
+            filter
+            drop-shadow-4xl
+            italic
+          "
+          >Welcome to Travel Taiwan</span
+        >
       </div>
       <div class="flex gap-[19px]">
         <!-- 類別 -->
@@ -99,7 +119,17 @@ function GetAuthorizationHeader() {
             <ListboxButton>
               <div
                 tabindex="0"
-                class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
+                class="
+                  btn
+                  w-[107px]
+                  md:w-[191px]
+                  bg-base-100
+                  hover:bg-base-100
+                  text-gray-content
+                  border-0
+                  text-sm
+                  md:text-base
+                "
               >
                 <span class="mx-auto">{{ selectedPerson.name }}</span>
                 <span>▼</span>
@@ -107,7 +137,17 @@ function GetAuthorizationHeader() {
             </ListboxButton>
             <ListboxOptions
               tabindex="0"
-              class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
+              class="
+                p-2
+                shadow
+                menu
+                dropdown-content
+                bg-base-100
+                rounded-b-lg
+                w-[107px]
+                md:w-[191px]
+                top-[40px]
+              "
             >
               <ListboxOption
                 v-for="person in people"
@@ -117,7 +157,9 @@ function GetAuthorizationHeader() {
               >
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
-                    <span class="text-gray-content font-semibold mx-auto">{{ person.name }}</span>
+                    <span class="text-gray-content font-semibold mx-auto">{{
+                      person.name
+                    }}</span>
                   </a>
                 </li>
               </ListboxOption>
@@ -130,7 +172,17 @@ function GetAuthorizationHeader() {
             <ListboxButton>
               <div
                 tabindex="0"
-                class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
+                class="
+                  btn
+                  w-[107px]
+                  md:w-[191px]
+                  bg-base-100
+                  hover:bg-base-100
+                  text-gray-content
+                  border-0
+                  text-sm
+                  md:text-base
+                "
               >
                 <span class="mx-auto">{{ selectedCity.name }}</span>
                 <span>▼</span>
@@ -138,7 +190,17 @@ function GetAuthorizationHeader() {
             </ListboxButton>
             <ListboxOptions
               tabindex="0"
-              class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
+              class="
+                p-2
+                shadow
+                menu
+                dropdown-content
+                bg-base-100
+                rounded-b-lg
+                w-[107px]
+                md:w-[191px]
+                top-[40px]
+              "
             >
               <ListboxOption
                 v-for="city in cities"
@@ -148,7 +210,9 @@ function GetAuthorizationHeader() {
               >
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
-                    <p class="text-gray-content font-semibold mx-auto">{{ city.name }}</p>
+                    <p class="text-gray-content font-semibold mx-auto">
+                      {{ city.name }}
+                    </p>
                   </a>
                 </li>
               </ListboxOption>
@@ -175,7 +239,7 @@ function GetAuthorizationHeader() {
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-y-16">
         <div
-          v-for="(picture,index) in pictureURL"
+          v-for="(picture, index) in pictureURL"
           :key="picture.index"
           class="card bordered shadow-lg"
         >
@@ -196,15 +260,34 @@ function GetAuthorizationHeader() {
             <div class="justify-center card-actions">
               <label
                 for="my-modal-2"
-                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
-              >了解更多</label>
+                class="
+                  ring-4 ring-blue-main
+                  hover:bg-blue-main hover:text-white
+                  rounded
+                  text-blue-main
+                  w-2/3
+                  modal-button
+                  text-center
+                  cursor-pointer
+                "
+                >了解更多</label
+              >
               <input type="checkbox" id="my-modal-2" class="modal-toggle" />
               <div class="modal">
                 <div class="modal-box max-w-3xl rounded-lg">
                   <div class="modal-action mt-0">
                     <label
                       for="my-modal-2"
-                      class="bg-gray-500 hover:bg-gray-400 rounded h-8 w-8 grid place-items-center cursor-pointer"
+                      class="
+                        bg-gray-500
+                        hover:bg-gray-400
+                        rounded
+                        h-8
+                        w-8
+                        grid
+                        place-items-center
+                        cursor-pointer
+                      "
                     >
                       <XIcon class="h-5 w-5 text-white" />
                     </label>
@@ -214,11 +297,13 @@ function GetAuthorizationHeader() {
                     <h1 class="text-2xl">紫坪</h1>
                     <div class="flex items-center py-5">
                       <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-                      <p class="text-gray-content ml-2">臺東縣951綠島鄉溫泉路256號</p>
+                      <p class="text-gray-content ml-2">
+                        臺東縣951綠島鄉溫泉路256號
+                      </p>
                     </div>
-                    <p
-                      class="text-gray-content"
-                    >紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。</p>
+                    <p class="text-gray-content">
+                      紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。
+                    </p>
                     <div class="grid justify-end pb-5 pt-6 md:pt-0">
                       <div class="items-center flex cursor-pointer">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
@@ -245,7 +330,15 @@ function GetAuthorizationHeader() {
                     </div>
                     <!-- 電話等 -->
                     <div
-                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
+                      class="
+                        grid grid-cols-2
+                        md:grid-cols-4
+                        grid-flow-row
+                        place-items-center
+                        md:place-items-start
+                        py-5
+                        gap-y-5
+                      "
                     >
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
@@ -279,19 +372,77 @@ function GetAuthorizationHeader() {
         <p>各種不同的活動內容</p>
         <p>邀請您一同來共襄盛舉！</p>
       </div>
-      <div class="flex overflow-auto no-scrollbar">
-        <div v-for="s in 4">
+      <div class="flex overflow-auto no-scrollbar justify-between">
+        <div>
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
-            <img class="bg-center" :src="bgg" />
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType1.jpg"
+            />
           </div>
-          <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">年度活動</div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            年度活動
+          </div>
+        </div>
+        <div>
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType2.jpg"
+            />
+          </div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            年度活動
+          </div>
+        </div>
+        <div>
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType3.jpg"
+            />
+          </div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            年度活動
+          </div>
+        </div>
+        <div>
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType4.jpg"
+            />
+          </div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            年度活動
+          </div>
         </div>
       </div>
     </div>
   </div>
   <!-- footer img -->
-  <div class="bg-footer h-[332px] w-full bg-cover grid place-items-center text-center">
-    <span class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl">
+  <div
+    class="
+      bg-footer
+      h-[332px]
+      w-full
+      bg-cover
+      grid
+      place-items-center
+      text-center
+    "
+  >
+    <span
+      class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl"
+    >
       <p>“To travel is to live”</p>
       <br />
       <p>– Hans Christian Anderson-</p>
