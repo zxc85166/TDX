@@ -1,8 +1,10 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import { LocationMarkerIcon, PhotographIcon } from '@heroicons/vue/solid'
-import { ClockIcon, XIcon } from '@heroicons/vue/outline'
-import { ref } from 'vue'
+import { useI18n } from 'vue-i18n';
+import axios from 'axios';
+import { LocationMarkerIcon, PhotographIcon } from '@heroicons/vue/solid';
+import { ClockIcon, XIcon } from '@heroicons/vue/outline';
+import jsSHA from "jssha"
+import { ref } from 'vue';
 import {
   Listbox,
   ListboxButton,
@@ -10,9 +12,12 @@ import {
   ListboxOption,
 } from '@headlessui/vue'
 const { t } = useI18n();
-
+// api儲存區
+const pictureURL = ref([]);
+const bgg = ref('');
+//
 const people = [
-  { id: 1, name: '所有類別', unavailable: false },
+  { id: 0, name: '所有類別', unavailable: false },
   { id: 2, name: '類別1', unavailable: false },
   { id: 3, name: '類別2', unavailable: false },
   { id: 4, name: '類別3', unavailable: false },
@@ -21,15 +26,62 @@ const people = [
 const selectedPerson = ref(people[0])
 
 const cities = [
-  { id: 1, name: '所有縣市', unavailable: false },
-  { id: 2, name: '高雄', unavailable: false },
-  { id: 3, name: '台北', unavailable: false },
-  { id: 4, name: '台中', unavailable: false },
-  { id: 5, name: '嘉義', unavailable: false },
+  { id: 1, name: '所有縣市', value: 'All' },
+  { id: 2, name: '臺北市', value: 'Taipei' },
+  { id: 3, name: '新北市', value: 'NewTaipei' },
+  { id: 4, name: '桃園市', value: 'Taoyuan' },
+  { id: 5, name: '臺中市', value: 'Taichung' },
+  { id: 6, name: '臺南市', value: 'Tainan' },
+  { id: 7, name: '高雄市', value: 'Kaohsiung' },
+  { id: 8, name: '基隆市', value: 'Keelung' },
+  { id: 9, name: '新竹市', value: 'Hsinchu' },
+  { id: 10, name: '新竹縣', value: 'HsinchuCounty' },
+  { id: 11, name: '苗栗縣', value: 'MiaoliCounty' },
+  { id: 12, name: '彰化縣', value: 'ChanghuaCounty' },
+  { id: 13, name: '南投縣', value: 'NantouCounty' },
+  { id: 14, name: '雲林縣', value: 'YunlinCounty' },
+  { id: 15, name: '嘉義縣', value: 'ChiayiCounty' },
+  { id: 16, name: '嘉義市', value: 'Chiayi' },
+  { id: 17, name: '屏東縣', value: 'PingtungCounty' },
+  { id: 18, name: '宜蘭縣', value: 'YilanCounty' },
+  { id: 19, name: '花蓮縣', value: 'HualienCounty' },
+  { id: 20, name: '臺東縣', value: 'TaitungCounty' },
+  { id: 21, name: '金門縣', value: 'KinmenCounty' },
+  { id: 22, name: '澎湖縣', value: 'PenghuCounty' },
+  { id: 23, name: '連江縣', value: 'LienchiangCounty' },
 ]
-const selectedCitie = ref(cities[0])
+const selectedCity = ref(cities[0])
+// axios
+function getAttractions() {
+  axios({
+    method: 'get',
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$select=Picture&$top=8&$format=JSON`,
+    headers: GetAuthorizationHeader()
+  })
+    .then((res) => {
+      const data = res.data;
+      // const routeData = data.filter((item) => item.Name === "紫坪")
+      bgg.value = data[0].Picture.PictureUrl1;
+      for (let n = 0; n < data.length; i++) {
+        pictureURL.value.push(data[0].Picture.PictureUrl1);
+      }
+    })
+    .catch((error) => console.log('error', error))
+}
+// API 驗證用
+function GetAuthorizationHeader() {
+  var AppID = '2d59acd2cea44ff7b241a386c39ab6f7';
+  var AppKey = 'yMrGHJnuiwFHwqspCCBUVqyjCD0';
 
-const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+  var GMTString = new Date().toGMTString();
+  var ShaObj = new jsSHA('SHA-1', 'TEXT');
+  ShaObj.setHMACKey(AppKey, 'TEXT');
+  ShaObj.update('x-date: ' + GMTString);
+  var HMAC = ShaObj.getHMAC('B64');
+  var Authorization = 'hmac username=\"' + AppID + '\", algorithm=\"hmac-sha1\", headers=\"x-date\", signature=\"' + HMAC + '\"';
+  return { 'Authorization': Authorization, 'X-Date': GMTString /*,'Accept-Encoding': 'gzip'*/ }; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
+}
+
 </script>
 
 <template>
@@ -74,13 +126,13 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
         </div>
         <!-- 所有縣市 -->
         <div class="dropdown dropdown-hover">
-          <Listbox v-model="selectedCitie">
+          <Listbox v-model="selectedCity">
             <ListboxButton>
               <div
                 tabindex="0"
                 class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
               >
-                <span class="mx-auto">{{ selectedCitie.name }}</span>
+                <span class="mx-auto">{{ selectedCity.name }}</span>
                 <span>▼</span>
               </div>
             </ListboxButton>
@@ -89,14 +141,14 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
               class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
             >
               <ListboxOption
-                v-for="citie in cities"
-                :key="citie"
-                :value="citie"
-                :disabled="citie.unavailable"
+                v-for="city in cities"
+                :key="city"
+                :value="city"
+                :disabled="city.unavailable"
               >
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
-                    <p class="text-gray-content font-semibold mx-auto">{{ citie.name }}</p>
+                    <p class="text-gray-content font-semibold mx-auto">{{ city.name }}</p>
                   </a>
                 </li>
               </ListboxOption>
@@ -104,7 +156,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
           </Listbox>
         </div>
         <!-- 搜尋按鈕 -->
-        <div class="pt-1">
+        <div class="pt-1" @click="getAttractions()">
           <a href="#">
             <img src="@/assets/images/search.png" alt="搜尋按鈕" />
           </a>
@@ -122,11 +174,13 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-y-16">
-        <div v-for="s in 8" class="card bordered shadow-lg">
+        <div
+          v-for="(picture,index) in pictureURL"
+          :key="picture.index"
+          class="card bordered shadow-lg"
+        >
           <figure>
-            <img
-              src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            />
+            <img :src="picture.Picture.PictureUrl1" />
           </figure>
           <div class="card-body p-5">
             <div class="flex items-center">

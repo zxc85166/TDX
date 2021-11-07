@@ -1,5 +1,7 @@
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
+import axios from "axios";
+import VueAxios from "vue-axios";
 import "./tailwind.css";
 import App from "./App.vue";
 import { routes } from "./routes.js";
@@ -25,4 +27,5 @@ const router = createRouter({
 
 app.use(router);
 app.use(i18n);
+app.use(VueAxios, axios);
 app.mount("#app");
