@@ -14,7 +14,6 @@ import {
 const { t } = useI18n();
 // api儲存區
 const pictureURL = ref([]);
-const bgg = ref("");
 //
 const people = [
   { id: 0, name: "所有類別", unavailable: false },
@@ -61,6 +60,10 @@ function getAttractions() {
     .then((res) => {
       const data = res.data;
       // const routeData = data.filter((item) => item.Name === "紫坪")
+      data.forEach((item) => {
+        pictureURL.value.push(item.Picture);
+      });
+      console.log(pictureURL.value);
     })
     .catch((error) => console.log("error", error));
 }
@@ -243,9 +246,13 @@ function GetAuthorizationHeader() {
           :key="picture.index"
           class="card bordered shadow-lg"
         >
-          <figure>
-            <img :src="picture.Picture.PictureUrl1" />
-          </figure>
+          <div>
+            <img
+              class="object-cover w-full h-full"
+              :src="picture.PictureUrl1"
+            />
+          </div>
+
           <div class="card-body p-5">
             <div class="flex items-center">
               <h2 class="card-title">正濱漁港懷舊碼頭</h2>
