@@ -97,6 +97,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
               <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
               <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
             </div>
+            <!-- modal  -->
             <div class="justify-center card-actions">
               <label
                 for="my-modal-2"
@@ -113,6 +114,7 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                       <XIcon class="h-5 w-5 text-white" />
                     </label>
                   </div>
+                  <!-- modal內容 -->
                   <div>
                     <h1 class="text-2xl">紫坪</h1>
                     <div class="flex items-center py-5">
@@ -122,9 +124,48 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                     <p
                       class="text-gray-content"
                     >紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。</p>
-                    <div class="flex items-center justify-end py-5">
+                    <div class="flex items-center justify-end pb-5">
                       <PhotographIcon class="h-5 w-5 text-blue-main" />
                       <p class="text-blue-main ml-2">相片(12)></p>
+                    </div>
+                    <!-- 圖片 -->
+                    <div class="grid grid-rows-2 grid-cols-3 gap-4">
+                      <div class="row-span-2 col-span-3 md:col-span-2">
+                        <img
+                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                        />
+                      </div>
+                      <div class="row-span-1 col-span-1 hidden md:grid">
+                        <img
+                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                        />
+                      </div>
+                      <div class="row-span-1 col-span-1 hidden md:grid">
+                        <img
+                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                        />
+                      </div>
+                    </div>
+                    <!-- 電話等 -->
+                    <div
+                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row justify-start py-5 gap-5"
+                    >
+                      <div class="flex">
+                        <PhotographIcon class="h-5 w-5 text-blue-main" />
+                        <p class="text-blue-main ml-2">全天候開放</p>
+                      </div>
+                      <div class="flex">
+                        <PhotographIcon class="h-5 w-5 text-blue-main" />
+                        <p class="text-blue-main ml-2">免費入場</p>
+                      </div>
+                      <div class="flex">
+                        <PhotographIcon class="h-5 w-5 text-blue-main" />
+                        <p class="text-blue-main ml-2">02-1154-7789</p>
+                      </div>
+                      <div class="flex">
+                        <PhotographIcon class="h-5 w-5 text-blue-main" />
+                        <p class="text-blue-main ml-2">自然風景類</p>
+                      </div>
                     </div>
                   </div>
                 </div>
