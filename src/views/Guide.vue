@@ -1,69 +1,229 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import { LocationMarkerIcon, PhotographIcon } from '@heroicons/vue/solid'
-import { ClockIcon, XIcon } from '@heroicons/vue/outline'
+import { useI18n } from "vue-i18n";
+import axios from "axios";
+import { LocationMarkerIcon, PhotographIcon } from "@heroicons/vue/solid";
+import { ClockIcon, XIcon } from "@heroicons/vue/outline";
+import jsSHA from "jssha";
+import { ref } from "vue";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/vue";
 const { t } = useI18n();
-const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+// api儲存區
+const pictureURL = ref([]);
+//
+const people = [
+  { id: 0, name: "所有類別", unavailable: false },
+  { id: 2, name: "年度活動", unavailable: false },
+  { id: 3, name: "藝文活動", unavailable: false },
+  { id: 4, name: "節慶活動", unavailable: false },
+  { id: 5, name: "其他", unavailable: false },
+];
+const selectedPerson = ref(people[0]);
+
+const cities = [
+  { id: 1, name: "所有縣市", value: "" },
+  { id: 2, name: "臺北市", value: "Taipei" },
+  { id: 3, name: "新北市", value: "NewTaipei" },
+  { id: 4, name: "桃園市", value: "Taoyuan" },
+  { id: 5, name: "臺中市", value: "Taichung" },
+  { id: 6, name: "臺南市", value: "Tainan" },
+  { id: 7, name: "高雄市", value: "Kaohsiung" },
+  { id: 8, name: "基隆市", value: "Keelung" },
+  { id: 9, name: "新竹市", value: "Hsinchu" },
+  { id: 10, name: "新竹縣", value: "HsinchuCounty" },
+  { id: 11, name: "苗栗縣", value: "MiaoliCounty" },
+  { id: 12, name: "彰化縣", value: "ChanghuaCounty" },
+  { id: 13, name: "南投縣", value: "NantouCounty" },
+  { id: 14, name: "雲林縣", value: "YunlinCounty" },
+  { id: 15, name: "嘉義縣", value: "ChiayiCounty" },
+  { id: 16, name: "嘉義市", value: "Chiayi" },
+  { id: 17, name: "屏東縣", value: "PingtungCounty" },
+  { id: 18, name: "宜蘭縣", value: "YilanCounty" },
+  { id: 19, name: "花蓮縣", value: "HualienCounty" },
+  { id: 20, name: "臺東縣", value: "TaitungCounty" },
+  { id: 21, name: "金門縣", value: "KinmenCounty" },
+  { id: 22, name: "澎湖縣", value: "PenghuCounty" },
+  { id: 23, name: "連江縣", value: "LienchiangCounty" },
+];
+const selectedCity = ref(cities[0]);
+// axios
+function getAttractions() {
+  const city = selectedCity.value.value;
+  console.log(city);
+  axios({
+    method: "get",
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CPicture%2COpenTime&$top=8&$format=JSON`,
+    headers: GetAuthorizationHeader(),
+  })
+    .then((res) => {
+      const data = res.data;
+      // const routeData = data.filter((item) => item.Name === "紫坪")
+      pictureURL.value = data;
+      console.log(pictureURL.value);
+    })
+    .catch((error) => console.log("error", error));
+}
+// API 驗證用
+function GetAuthorizationHeader() {
+  var AppID = "2d59acd2cea44ff7b241a386c39ab6f7";
+  var AppKey = "yMrGHJnuiwFHwqspCCBUVqyjCD0";
+
+  var GMTString = new Date().toGMTString();
+  var ShaObj = new jsSHA("SHA-1", "TEXT");
+  ShaObj.setHMACKey(AppKey, "TEXT");
+  ShaObj.update("x-date: " + GMTString);
+  var HMAC = ShaObj.getHMAC("B64");
+  var Authorization =
+    'hmac username="' +
+    AppID +
+    '", algorithm="hmac-sha1", headers="x-date", signature="' +
+    HMAC +
+    '"';
+  return {
+    Authorization: Authorization,
+    "X-Date": GMTString /*,'Accept-Encoding': 'gzip'*/,
+  }; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
+}
 </script>
 
 <template>
-  <div class="grid place-items-center bg-guide h-[599px] bg-cover bg-center bg-fixed">
+  <div
+    class="
+      grid
+      place-items-center
+      bg-guide
+      h-[599px]
+      bg-cover bg-center bg-fixed
+    "
+  >
     <div class="grid place-items-center gap-6">
       <div>
         <span
-          class="text-white font-bold text-xl md:text-5xl filter drop-shadow-4xl italic"
-        >Welcome to Travel Taiwan</span>
+          class="
+            text-white
+            font-bold
+            text-xl
+            md:text-5xl
+            filter
+            drop-shadow-4xl
+            italic
+          "
+          >Welcome to Travel Taiwan</span
+        >
       </div>
       <div class="flex gap-[19px]">
         <!-- 類別 -->
         <div class="dropdown dropdown-hover">
-          <div
-            tabindex="0"
-            class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0"
-          >
-            <span class="mx-auto">類別</span>
-            <span>▼</span>
-          </div>
-          <ul
-            tabindex="0"
-            class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
-          >
-            <li class="hover:bg-blue-main hover:text-white rounded-lg">
-              <a>Item 1</a>
-            </li>
-            <li class="hover:bg-blue-main hover:text-white rounded-lg">
-              <a>Item 2</a>
-            </li>
-            <li class="hover:bg-blue-main hover:text-white rounded-lg">
-              <a>Item 3</a>
-            </li>
-          </ul>
+          <Listbox v-model="selectedPerson">
+            <ListboxButton>
+              <div
+                tabindex="0"
+                class="
+                  btn
+                  w-[107px]
+                  md:w-[191px]
+                  bg-base-100
+                  hover:bg-base-100
+                  text-gray-content
+                  border-0
+                  text-sm
+                  md:text-base
+                "
+              >
+                <span class="mx-auto">{{ selectedPerson.name }}</span>
+                <span>▼</span>
+              </div>
+            </ListboxButton>
+            <ListboxOptions
+              tabindex="0"
+              class="
+                p-2
+                shadow
+                menu
+                dropdown-content
+                bg-base-100
+                rounded-b-lg
+                w-[107px]
+                md:w-[191px]
+                top-[40px]
+              "
+            >
+              <ListboxOption
+                v-for="person in people"
+                :key="person"
+                :value="person"
+                :disabled="person.unavailable"
+              >
+                <li class="hover:bg-blue-main rounded-lg">
+                  <a>
+                    <span class="text-gray-content font-semibold mx-auto">{{
+                      person.name
+                    }}</span>
+                  </a>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </Listbox>
         </div>
         <!-- 所有縣市 -->
         <div class="dropdown dropdown-hover">
-          <div
-            tabindex="0"
-            class="btn w-[175px] md:w-[297px] bg-base-100 hover:bg-base-100 text-gray-content border-0"
-          >
-            <span class="mx-auto">所有縣市</span>
-            <span>▼</span>
-          </div>
-          <ul
-            tabindex="0"
-            class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[175px] md:w-[297px] top-[40px]"
-          >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Item 2</a>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul>
+          <Listbox v-model="selectedCity">
+            <ListboxButton>
+              <div
+                tabindex="0"
+                class="
+                  btn
+                  w-[107px]
+                  md:w-[191px]
+                  bg-base-100
+                  hover:bg-base-100
+                  text-gray-content
+                  border-0
+                  text-sm
+                  md:text-base
+                "
+              >
+                <span class="mx-auto">{{ selectedCity.name }}</span>
+                <span>▼</span>
+              </div>
+            </ListboxButton>
+            <ListboxOptions
+              tabindex="0"
+              class="
+                p-2
+                shadow
+                menu
+                dropdown-content
+                bg-base-100
+                rounded-b-lg
+                w-[107px]
+                md:w-[191px]
+                top-[40px]
+              "
+            >
+              <ListboxOption
+                v-for="city in cities"
+                :key="city"
+                :value="city"
+                :disabled="city.unavailable"
+              >
+                <li class="hover:bg-blue-main rounded-lg">
+                  <a>
+                    <p class="text-gray-content font-semibold mx-auto">
+                      {{ city.name }}
+                    </p>
+                  </a>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </Listbox>
         </div>
-        <div class="pt-1">
+        <!-- 搜尋按鈕 -->
+        <div class="pt-1" @click="getAttractions()">
           <a href="#">
             <img src="@/assets/images/search.png" alt="搜尋按鈕" />
           </a>
@@ -81,35 +241,64 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-y-16">
-        <div v-for="s in 8" class="card bordered shadow-lg">
-          <figure>
+        <div
+          v-for="(picture, index) in pictureURL"
+          :key="picture.index"
+          class="card bordered shadow-lg max-w-[350px]"
+        >
+          <div class="h-[184px]">
             <img
-              src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              class="object-cover w-full h-full"
+              :src="picture.Picture.PictureUrl1"
             />
-          </figure>
+          </div>
+
           <div class="card-body p-5">
-            <div class="flex items-center">
-              <h2 class="card-title">正濱漁港懷舊碼頭</h2>
-              <ClockIcon class="md:h-5 md:w-5 h-4 w-4 mx-auto" />
-              <span class="text-gray-content text-sm">全天候開放</span>
+            <div class="flex items-center justify-between">
+              <h2 class="card-title">{{ picture.Name }}</h2>
+              <ClockIcon class="md:h-5 md:w-5 h-4 w-4 ml-2" />
+              <span class="text-gray-content text-sm">{{
+                picture.OpenTime
+              }}</span>
             </div>
             <div class="flex items-center">
               <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-              <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
+              <p class="text-gray-content ml-2">
+                {{ picture.Address }}
+              </p>
             </div>
             <!-- modal  -->
             <div class="justify-center card-actions">
               <label
                 for="my-modal-2"
-                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
-              >了解更多</label>
+                class="
+                  ring-4 ring-blue-main
+                  hover:bg-blue-main hover:text-white
+                  rounded
+                  text-blue-main
+                  w-2/3
+                  modal-button
+                  text-center
+                  cursor-pointer
+                "
+                >了解更多</label
+              >
               <input type="checkbox" id="my-modal-2" class="modal-toggle" />
               <div class="modal">
                 <div class="modal-box max-w-3xl rounded-lg">
                   <div class="modal-action mt-0">
                     <label
                       for="my-modal-2"
-                      class="bg-gray-500 hover:bg-gray-400 rounded h-8 w-8 grid place-items-center cursor-pointer"
+                      class="
+                        bg-gray-500
+                        hover:bg-gray-400
+                        rounded
+                        h-8
+                        w-8
+                        grid
+                        place-items-center
+                        cursor-pointer
+                      "
                     >
                       <XIcon class="h-5 w-5 text-white" />
                     </label>
@@ -119,11 +308,13 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                     <h1 class="text-2xl">紫坪</h1>
                     <div class="flex items-center py-5">
                       <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-                      <p class="text-gray-content ml-2">臺東縣951綠島鄉溫泉路256號</p>
+                      <p class="text-gray-content ml-2">
+                        臺東縣951綠島鄉溫泉路256號
+                      </p>
                     </div>
-                    <p
-                      class="text-gray-content"
-                    >紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。</p>
+                    <p class="text-gray-content">
+                      紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。
+                    </p>
                     <div class="grid justify-end pb-5 pt-6 md:pt-0">
                       <div class="items-center flex cursor-pointer">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
@@ -150,7 +341,15 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
                     </div>
                     <!-- 電話等 -->
                     <div
-                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
+                      class="
+                        grid grid-cols-2
+                        md:grid-cols-4
+                        grid-flow-row
+                        place-items-center
+                        md:place-items-start
+                        py-5
+                        gap-y-5
+                      "
                     >
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
@@ -182,21 +381,79 @@ const bgg = "https://images.pexels.com/photos/3977262/pexels-photo-3977262.jpeg?
       <div class="text-gray-content_light mb-12 ml-5">
         <span class="text-blue-main text-3xl flex mb-6">活動類別</span>
         <p>各種不同的活動內容</p>
-        <p>邀請您一銅來共襄盛舉！</p>
+        <p>邀請您一同來共襄盛舉！</p>
       </div>
-      <div class="flex overflow-auto no-scrollbar">
-        <div v-for="s in 4">
+      <div class="flex overflow-auto no-scrollbar justify-between">
+        <div>
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
-            <img class="bg-center" :src="bgg" />
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType1.jpg"
+            />
           </div>
-          <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">年度活動</div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            年度活動
+          </div>
+        </div>
+        <div>
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType2.jpg"
+            />
+          </div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            藝文活動
+          </div>
+        </div>
+        <div>
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType3.jpg"
+            />
+          </div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            節慶活動
+          </div>
+        </div>
+        <div>
+          <div class="card shadow-xl w-[256px] h-[328px] mr-20">
+            <img
+              class="object-cover w-full h-full"
+              src="@/assets/images/homeType4.jpg"
+            />
+          </div>
+          <div
+            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
+          >
+            其他
+          </div>
         </div>
       </div>
     </div>
   </div>
   <!-- footer img -->
-  <div class="bg-footer h-[332px] w-full bg-cover grid place-items-center text-center">
-    <span class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl">
+  <div
+    class="
+      bg-footer
+      h-[332px]
+      w-full
+      bg-cover
+      grid
+      place-items-center
+      text-center
+    "
+  >
+    <span
+      class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl"
+    >
       <p>“To travel is to live”</p>
       <br />
       <p>– Hans Christian Anderson-</p>
