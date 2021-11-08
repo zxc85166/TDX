@@ -54,15 +54,13 @@ const selectedCity = ref(cities[0]);
 function getAttractions() {
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$select=Picture&$top=8&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$select=Name%2CPicture%2COpenTime%2CAddress&$top=8&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
       const data = res.data;
       // const routeData = data.filter((item) => item.Name === "紫坪")
-      data.forEach((item) => {
-        pictureURL.value.push(item.Picture);
-      });
+      pictureURL.value = data;
       console.log(pictureURL.value);
     })
     .catch((error) => console.log("error", error));
@@ -249,19 +247,23 @@ function GetAuthorizationHeader() {
           <div class="h-[184px]">
             <img
               class="object-cover w-full h-full"
-              :src="picture.PictureUrl1"
+              :src="picture.Picture.PictureUrl1"
             />
           </div>
 
           <div class="card-body p-5">
             <div class="flex items-center justify-between">
-              <h2 class="card-title">正濱漁港懷舊碼頭</h2>
+              <h2 class="card-title">{{ picture.Name }}</h2>
               <ClockIcon class="md:h-5 md:w-5 h-4 w-4 ml-2" />
-              <span class="text-gray-content text-sm">全天候開放</span>
+              <span class="text-gray-content text-sm">{{
+                picture.OpenTime
+              }}</span>
             </div>
             <div class="flex items-center">
               <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-              <p class="text-gray-content ml-2">臺東縣951綠島鄉</p>
+              <p class="text-gray-content ml-2">
+                {{ picture.Address }}
+              </p>
             </div>
             <!-- modal  -->
             <div class="justify-center card-actions">
