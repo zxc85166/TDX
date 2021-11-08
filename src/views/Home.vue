@@ -25,7 +25,7 @@ const people = [
 const selectedPerson = ref(people[0]);
 
 const cities = [
-  { id: 1, name: "所有縣市", value: "All" },
+  { id: 1, name: "所有縣市", value: "" },
   { id: 2, name: "臺北市", value: "Taipei" },
   { id: 3, name: "新北市", value: "NewTaipei" },
   { id: 4, name: "桃園市", value: "Taoyuan" },
