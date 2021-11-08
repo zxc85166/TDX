@@ -52,9 +52,11 @@ const cities = [
 const selectedCity = ref(cities[0]);
 // axios
 function getAttractions() {
+  const city = selectedCity.value.value;
+  console.log(city);
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$select=Name%2CPicture%2COpenTime%2CAddress&$top=8&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CPicture%2COpenTime&$top=8&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
