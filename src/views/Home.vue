@@ -15,14 +15,14 @@ const { t } = useI18n();
 // api儲存區
 const pictureURL = ref([]);
 //
-const people = [
-  { id: 0, name: "所有類別", unavailable: false },
-  { id: 2, name: "年度活動", unavailable: false },
-  { id: 3, name: "藝文活動", unavailable: false },
-  { id: 4, name: "節慶活動", unavailable: false },
-  { id: 5, name: "其他", unavailable: false },
+const types = [
+  { id: 0, name: "所有類別", value: "" },
+  { id: 1, name: "自然風景", value: "自然風景" },
+  { id: 2, name: "體育健身", value: "體育健身" },
+  { id: 3, name: "遊憩類", value: "遊憩類" },
+  { id: 4, name: "古蹟類", value: "古蹟類" },
 ];
-const selectedPerson = ref(people[0]);
+const selectedType = ref(types[0]);
 
 const cities = [
   { id: 1, name: "所有縣市", value: "" },
@@ -53,17 +53,28 @@ const selectedCity = ref(cities[0]);
 // axios
 function getAttractions() {
   const city = selectedCity.value.value;
-  console.log(city);
+  const type = selectedType.value.value;
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CPicture%2COpenTime&$top=8&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CPicture%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=100&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
       const data = res.data;
-      // const routeData = data.filter((item) => item.Name === "紫坪")
-      pictureURL.value = data;
-      console.log(pictureURL.value);
+      let invalidEntries = 0;
+      function filterByPictureURL(item) {
+        if (item.Picture.PictureUrl1 && invalidEntries < 8) {
+          invalidEntries++;
+          return true;
+        }
+      }
+      const filterData = data.filter(filterByPictureURL);
+
+      pictureURL.value = filterData;
+      console.log(data);
+      if (filterData.length === 0) {
+        alert("查無含有圖片之資料");
+      }
     })
     .catch((error) => console.log("error", error));
 }
@@ -118,7 +129,7 @@ function GetAuthorizationHeader() {
       <div class="flex gap-[19px]">
         <!-- 類別 -->
         <div class="dropdown dropdown-hover">
-          <Listbox v-model="selectedPerson">
+          <Listbox v-model="selectedType">
             <ListboxButton>
               <div
                 tabindex="0"
@@ -134,7 +145,7 @@ function GetAuthorizationHeader() {
                   md:text-base
                 "
               >
-                <span class="mx-auto">{{ selectedPerson.name }}</span>
+                <span class="mx-auto">{{ selectedType.name }}</span>
                 <span>▼</span>
               </div>
             </ListboxButton>
@@ -152,16 +163,11 @@ function GetAuthorizationHeader() {
                 top-[40px]
               "
             >
-              <ListboxOption
-                v-for="person in people"
-                :key="person"
-                :value="person"
-                :disabled="person.unavailable"
-              >
+              <ListboxOption v-for="types in types" :key="types" :value="types">
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
                     <span class="text-gray-content font-semibold mx-auto">{{
-                      person.name
+                      types.name
                     }}</span>
                   </a>
                 </li>
@@ -205,12 +211,7 @@ function GetAuthorizationHeader() {
                 top-[40px]
               "
             >
-              <ListboxOption
-                v-for="city in cities"
-                :key="city"
-                :value="city"
-                :disabled="city.unavailable"
-              >
+              <ListboxOption v-for="city in cities" :key="city" :value="city">
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
                     <p class="text-gray-content font-semibold mx-auto">
@@ -263,11 +264,20 @@ function GetAuthorizationHeader() {
                 <span class="text-gray-content text-sm">
                   {{ picture.OpenTime }}</span
                 >
+                <span
+                  v-if="!picture.OpenTime"
+                  class="text-gray-content text-sm"
+                >
+                  查無資料</span
+                >
               </div>
               <div class="flex items-center pt-2">
                 <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
                 <p class="text-gray-content ml-2">
                   {{ picture.Address }}
+                </p>
+                <p v-if="!picture.Address" class="text-gray-content ml-2">
+                  查無資料
                 </p>
               </div>
             </div>
