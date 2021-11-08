@@ -254,19 +254,24 @@ function GetAuthorizationHeader() {
           </div>
 
           <div class="card-body p-5">
-            <div class="flex items-center justify-between">
-              <h2 class="card-title">{{ picture.Name }}</h2>
-              <ClockIcon class="md:h-5 md:w-5 h-4 w-4 ml-2" />
-              <span class="text-gray-content text-sm">{{
-                picture.OpenTime
-              }}</span>
+            <div class="grid gap-1">
+              <div class="flex">
+                <h2 class="card-title">{{ picture.Name }}</h2>
+              </div>
+              <div class="flex items-center">
+                <ClockIcon class="md:h-5 md:w-5 h-4 w-4 mr-2" />
+                <span class="text-gray-content text-sm">
+                  {{ picture.OpenTime }}</span
+                >
+              </div>
+              <div class="flex items-center pt-2">
+                <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
+                <p class="text-gray-content ml-2">
+                  {{ picture.Address }}
+                </p>
+              </div>
             </div>
-            <div class="flex items-center">
-              <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-              <p class="text-gray-content ml-2">
-                {{ picture.Address }}
-              </p>
-            </div>
+
             <!-- modal  -->
             <div class="justify-center card-actions">
               <label
