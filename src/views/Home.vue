@@ -65,17 +65,19 @@ function getAttractions() {
       const data = res.data;
       let invalidEntries = 0;
       function filterByPictureURL(item) {
-        if (item.Picture.PictureUrl1 && invalidEntries < 8) {
+        // if (item.Picture.PictureUrl1 && invalidEntries < 8) {
+        if (invalidEntries < 8) {
           invalidEntries++;
           return true;
         }
       }
       const filterData = data.filter(filterByPictureURL);
       pictureURL.value = filterData;
-      console.log(data);
       if (filterData.length === 0) {
-        noData.value = true;
+        noData.value = false;
         alert("查無含有圖片之資料");
+      } else {
+        noData.value = true;
       }
     })
     .catch((error) => console.log("error", error));
@@ -243,7 +245,7 @@ function GetAuthorizationHeader() {
         <p>台灣的各個美景，都美不勝收。</p>
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
-      <div v-show="!noData.value">
+      <div v-show="noData.value">
         <span class="text-blue-main text-3xl flex mb-6"
           >※尚未查詢或無查詢資料※</span
         >
@@ -257,9 +259,16 @@ function GetAuthorizationHeader() {
         >
           <div class="h-[184px]">
             <img
+              v-if="picture.Picture.PictureUrl1"
               class="object-cover w-full h-full"
               :src="picture.Picture.PictureUrl1"
             />
+            <span
+              v-if="!picture.Picture.PictureUrl1"
+              class="text-gray-content text-xl flex justify-center mt-24"
+            >
+              ※此筆資料無圖片※</span
+            >
           </div>
 
           <div class="card-body p-5">
