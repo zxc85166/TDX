@@ -17,10 +17,10 @@ const pictureURL = ref([]);
 //
 const people = [
   { id: 0, name: "所有類別", unavailable: false },
-  { id: 2, name: "類別1", unavailable: false },
-  { id: 3, name: "類別2", unavailable: false },
-  { id: 4, name: "類別3", unavailable: false },
-  { id: 5, name: "類別4", unavailable: false },
+  { id: 2, name: "年度活動", unavailable: false },
+  { id: 3, name: "藝文活動", unavailable: false },
+  { id: 4, name: "節慶活動", unavailable: false },
+  { id: 5, name: "其他", unavailable: false },
 ];
 const selectedPerson = ref(people[0]);
 
@@ -407,7 +407,7 @@ function GetAuthorizationHeader() {
           <div
             class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
           >
-            年度活動
+            藝文活動
           </div>
         </div>
         <div>
@@ -420,7 +420,7 @@ function GetAuthorizationHeader() {
           <div
             class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
           >
-            年度活動
+            節慶活動
           </div>
         </div>
         <div>
@@ -433,7 +433,7 @@ function GetAuthorizationHeader() {
           <div
             class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
           >
-            年度活動
+            其他
           </div>
         </div>
       </div>
