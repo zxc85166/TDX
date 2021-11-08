@@ -241,6 +241,12 @@ function GetAuthorizationHeader() {
         <p>台灣的各個美景，都美不勝收。</p>
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
+      <div v-if="!pictureURL.value">
+        <span class="text-blue-main text-3xl flex mb-6"
+          >尚未查詢或無查詢資料</span
+        >
+      </div>
+      <!-- cards -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-y-16">
         <div
           v-for="(picture, index) in pictureURL"
