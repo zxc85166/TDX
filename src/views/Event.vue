@@ -22,7 +22,7 @@ const link = (e) => { //在vue中打開外部網站連結
 const pictureURL = ref([]);
 //
 const types = [
-  { id: 0, name: "所有類別", value: "" },
+  { id: 0, name: "所有活動", value: "" },
   { id: 1, name: "年度活動", value: "年度活動" },
   { id: 2, name: "藝文活動", value: "藝文活動" },
   { id: 3, name: "節慶活動", value: "節慶活動" },
@@ -56,6 +56,28 @@ const cities = [
   { id: 23, name: "連江縣", value: "LienchiangCounty" },
 ];
 const selectedCity = ref(cities[0]);
+//快速請求
+const getSpeedQuery = (type) => {
+  axios({
+    method: "get",
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?$select=Name%2CAddress%2CCharge%2CPhone%2CPicture%2CDescription%2CWebsiteUrl%2CStartTime%2CEndTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=10&$format=JSON`,
+    headers: GetAuthorizationHeader(),
+  })
+    .then((res) => {
+      const data = res.data;
+      pictureURL.value = data;
+      if (data.length === 0) {
+        alert("查無該條件資料");
+        noData.value = true;
+      } else {
+        noData.value = false;
+        document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
+        selectedType.value = types[0];
+        selectedCity.value = cities[0];
+      }
+    })
+    .catch((error) => console.log("error", error));
+}
 // axios
 function getAttractions() {
   const city = selectedCity.value.value;
@@ -177,9 +199,11 @@ function GetAuthorizationHeader() {
   <!-- api -->
   <div class="md:mx-20 mx-9 font-black">
     <!-- 熱門景點 -->
-    <div class="my-28">
+    <div id="showRes" class="my-28">
       <div class="text-gray-content_light mb-12 ml-5">
-        <span class="text-blue-main text-3xl flex mb-6">熱門景點</span>
+        <span
+          class="text-blue-main text-3xl flex mb-6"
+        >{{ selectedCity.name }}{{ selectedType.name }}</span>
         <p>台灣的各個美景，都美不勝收。</p>
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
@@ -342,25 +366,25 @@ function GetAuthorizationHeader() {
         <p>邀請您一同來共襄盛舉！</p>
       </div>
       <div class="flex overflow-auto no-scrollbar justify-between">
-        <div>
+        <div @click="getSpeedQuery('年度活動')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType1.jpg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">年度活動</div>
         </div>
-        <div>
+        <div @click="getSpeedQuery('藝文活動')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType2.jpg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">藝文活動</div>
         </div>
-        <div>
+        <div @click="getSpeedQuery('節慶活動')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType3.jpg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">節慶活動</div>
         </div>
-        <div>
+        <div @click="getSpeedQuery('其他')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType4.jpg" />
           </div>

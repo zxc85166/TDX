@@ -53,6 +53,28 @@ const cities = [
   { id: 23, name: "連江縣", value: "LienchiangCounty" },
 ];
 const selectedCity = ref(cities[0]);
+//快速請求
+const getSpeedQuery = (type) => {
+  axios({
+    method: "get",
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CLevel%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=3&$format=JSON`,
+    headers: GetAuthorizationHeader(),
+  })
+    .then((res) => {
+      const data = res.data;
+      pictureURL.value = data;
+      if (data.length === 0) {
+        alert("查無該條件資料");
+        noData.value = true;
+      } else {
+        noData.value = false;
+        document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
+        selectedType.value = types[0];
+        selectedCity.value = cities[0];
+      }
+    })
+    .catch((error) => console.log("error", error));
+}
 // axios
 function getAttractions() {
   const city = selectedCity.value.value;
@@ -174,9 +196,11 @@ function GetAuthorizationHeader() {
   <!-- api -->
   <div class="md:mx-20 mx-9 font-black">
     <!-- 熱門景點 -->
-    <div class="my-28">
+    <div id="showRes" class="my-28">
       <div class="text-gray-content_light mb-12 ml-5">
-        <span class="text-blue-main text-3xl flex mb-6">熱門景點</span>
+        <span
+          class="text-blue-main text-3xl flex mb-6"
+        >{{ selectedCity.name }}{{ selectedType.name }}</span>
         <p>台灣的各個美景，都美不勝收。</p>
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
@@ -308,25 +332,25 @@ function GetAuthorizationHeader() {
         <p>邀請您一同來共襄盛舉！</p>
       </div>
       <div class="flex overflow-auto no-scrollbar justify-between">
-        <div>
+        <div @click="getSpeedQuery('自然風景')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType1.jpg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">自然風景</div>
         </div>
-        <div>
+        <div @click="getSpeedQuery('體育健身')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType2.jpg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">體育健身</div>
         </div>
-        <div>
+        <div @click="getSpeedQuery('遊憩類')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType3.jpg" />
           </div>
           <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">遊憩類</div>
         </div>
-        <div>
+        <div @click="getSpeedQuery('古蹟類')" class="cursor-pointer">
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
             <img class="object-cover w-full h-full" src="@/assets/images/homeType4.jpg" />
           </div>

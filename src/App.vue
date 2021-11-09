@@ -17,9 +17,9 @@ function scrollToTop() {
   <!-- Gotop -->
   <div class="fixed right-5 bottom-20 z-50 drop-shadow-lg">
     <div class="grid gap-2">
-      <div data-tip="切換語言" class="tooltip">
+      <!-- <div data-tip="切換語言" class="tooltip">
         <i18n />
-      </div>
+      </div>-->
       <div data-tip="回到頂端" class="tooltip tooltip-left">
         <div
           class="rounded-full bg-blue-main h-11 w-11 text-white cursor-pointer flex items-center justify-center"
