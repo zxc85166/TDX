@@ -11,9 +11,10 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
+
 const { t } = useI18n();
-//現有無資料
-const noData = ref(true);
+//顯示開關
+const noData = ref(true); //現有無資料
 // api參數儲存區
 const pictureURL = ref([]);
 //
@@ -58,26 +59,17 @@ function getAttractions() {
   const type = selectedType.value.value;
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CPicture%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=100&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=3&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
       const data = res.data;
-      let invalidEntries = 0;
-      function filterByPictureURL(item) {
-        // if (item.Picture.PictureUrl1 && invalidEntries < 8) {
-        if (invalidEntries < 8) {
-          invalidEntries++;
-          return true;
-        }
-      }
-      const filterData = data.filter(filterByPictureURL);
-      pictureURL.value = filterData;
-      if (filterData.length === 0) {
-        noData.value = false;
-        alert("查無含有圖片之資料");
-      } else {
+      pictureURL.value = data;
+      if (data.length === 0) {
+        alert("查無該條件資料");
         noData.value = true;
+      } else {
+        noData.value = false;
       }
     })
     .catch((error) => console.log("error", error));
@@ -106,29 +98,12 @@ function GetAuthorizationHeader() {
 </script>
 
 <template>
-  <div
-    class="
-      grid
-      place-items-center
-      bg-Home
-      h-[599px]
-      bg-cover bg-center bg-fixed
-    "
-  >
+  <div class="grid place-items-center bg-Home h-[599px] bg-cover bg-center bg-fixed">
     <div class="grid place-items-center gap-6">
       <div>
         <span
-          class="
-            text-white
-            font-bold
-            text-xl
-            md:text-5xl
-            filter
-            drop-shadow-4xl
-            italic
-          "
-          >Welcome to Travel Taiwan</span
-        >
+          class="text-white font-bold text-xl md:text-5xl filter drop-shadow-4xl italic"
+        >Welcome to Travel Taiwan</span>
       </div>
       <div class="flex gap-[19px]">
         <!-- 類別 -->
@@ -137,17 +112,7 @@ function GetAuthorizationHeader() {
             <ListboxButton>
               <div
                 tabindex="0"
-                class="
-                  btn
-                  w-[107px]
-                  md:w-[191px]
-                  bg-base-100
-                  hover:bg-base-100
-                  text-gray-content
-                  border-0
-                  text-sm
-                  md:text-base
-                "
+                class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
               >
                 <span class="mx-auto">{{ selectedType.name }}</span>
                 <span>▼</span>
@@ -155,24 +120,16 @@ function GetAuthorizationHeader() {
             </ListboxButton>
             <ListboxOptions
               tabindex="0"
-              class="
-                p-2
-                shadow
-                menu
-                dropdown-content
-                bg-base-100
-                rounded-b-lg
-                w-[107px]
-                md:w-[191px]
-                top-[40px]
-              "
+              class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
             >
               <ListboxOption v-for="types in types" :key="types" :value="types">
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
-                    <span class="text-gray-content font-semibold mx-auto">{{
-                      types.name
-                    }}</span>
+                    <span class="text-gray-content font-semibold mx-auto">
+                      {{
+                        types.name
+                      }}
+                    </span>
                   </a>
                 </li>
               </ListboxOption>
@@ -185,17 +142,7 @@ function GetAuthorizationHeader() {
             <ListboxButton>
               <div
                 tabindex="0"
-                class="
-                  btn
-                  w-[107px]
-                  md:w-[191px]
-                  bg-base-100
-                  hover:bg-base-100
-                  text-gray-content
-                  border-0
-                  text-sm
-                  md:text-base
-                "
+                class="btn w-[107px] md:w-[191px] bg-base-100 hover:bg-base-100 text-gray-content border-0 text-sm md:text-base"
               >
                 <span class="mx-auto">{{ selectedCity.name }}</span>
                 <span>▼</span>
@@ -203,24 +150,12 @@ function GetAuthorizationHeader() {
             </ListboxButton>
             <ListboxOptions
               tabindex="0"
-              class="
-                p-2
-                shadow
-                menu
-                dropdown-content
-                bg-base-100
-                rounded-b-lg
-                w-[107px]
-                md:w-[191px]
-                top-[40px]
-              "
+              class="p-2 shadow menu dropdown-content bg-base-100 rounded-b-lg w-[107px] md:w-[191px] top-[40px]"
             >
               <ListboxOption v-for="city in cities" :key="city" :value="city">
                 <li class="hover:bg-blue-main rounded-lg">
                   <a>
-                    <p class="text-gray-content font-semibold mx-auto">
-                      {{ city.name }}
-                    </p>
+                    <p class="text-gray-content font-semibold mx-auto">{{ city.name }}</p>
                   </a>
                 </li>
               </ListboxOption>
@@ -245,11 +180,10 @@ function GetAuthorizationHeader() {
         <p>台灣的各個美景，都美不勝收。</p>
         <p>等你一同來發現這座寶島的奧妙！</p>
       </div>
-      <div v-show="noData.value">
-        <span class="text-blue-main text-3xl flex mb-6"
-          >※尚未查詢或無查詢資料※</span
-        >
+      <div v-if="noData">
+        <span class="text-blue-main text-3xl flex mb-6">※尚未查詢或無查詢資料※</span>
       </div>
+
       <!-- cards -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-y-16">
         <div
@@ -263,12 +197,11 @@ function GetAuthorizationHeader() {
               class="object-cover w-full h-full"
               :src="picture.Picture.PictureUrl1"
             />
-            <span
-              v-if="!picture.Picture.PictureUrl1"
-              class="text-gray-content text-xl flex justify-center mt-24"
-            >
-              ※此筆資料無圖片※</span
-            >
+
+            <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
+              <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+              <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
+            </div>
           </div>
 
           <div class="card-body p-5">
@@ -278,78 +211,46 @@ function GetAuthorizationHeader() {
               </div>
               <div class="flex items-center">
                 <ClockIcon class="md:h-5 md:w-5 h-4 w-4 mr-2" />
-                <span class="text-gray-content text-sm">
-                  {{ picture.OpenTime }}</span
-                >
-                <span
-                  v-if="!picture.OpenTime"
-                  class="text-gray-content text-sm"
-                >
-                  查無資料</span
-                >
+                <span class="text-gray-content text-sm">{{ picture.OpenTime }}</span>
+                <span v-if="!picture.OpenTime" class="text-gray-content text-sm">查無資料</span>
               </div>
               <div class="flex items-center pt-2">
                 <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-                <p class="text-gray-content ml-2">
-                  {{ picture.Address }}
-                </p>
-                <p v-if="!picture.Address" class="text-gray-content ml-2">
-                  查無資料
-                </p>
+                <p class="text-gray-content ml-2">{{ picture.Address }}</p>
+                <p v-if="!picture.Address" class="text-gray-content ml-2">查無資料</p>
               </div>
             </div>
             <!-- modal  -->
             <div class="justify-center card-actions">
               <label
                 for="my-modal-2"
-                class="
-                  ring-4 ring-blue-main
-                  hover:bg-blue-main hover:text-white
-                  rounded
-                  text-blue-main
-                  w-2/3
-                  modal-button
-                  text-center
-                  cursor-pointer
-                "
-                >了解更多</label
-              >
+                class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
+              >了解更多</label>
               <input type="checkbox" id="my-modal-2" class="modal-toggle" />
               <div class="modal">
                 <div class="modal-box max-w-3xl rounded-lg">
                   <div class="modal-action mt-0">
                     <label
                       for="my-modal-2"
-                      class="
-                        bg-gray-500
-                        hover:bg-gray-400
-                        rounded
-                        h-8
-                        w-8
-                        grid
-                        place-items-center
-                        cursor-pointer
-                      "
+                      class="bg-gray-500 hover:bg-gray-400 rounded h-8 w-8 grid place-items-center cursor-pointer"
                     >
                       <XIcon class="h-5 w-5 text-white" />
                     </label>
                   </div>
                   <!-- modal內容 -->
                   <div>
-                    <h1 class="text-2xl">紫坪</h1>
+                    <h1 class="text-2xl">{{ picture.Name }}</h1>
                     <div class="flex items-center py-5">
                       <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-                      <p class="text-gray-content ml-2">
-                        臺東縣951綠島鄉溫泉路256號
-                      </p>
+                      <p class="text-gray-content ml-2">{{ picture.Address }}</p>
+                      <p v-if="!picture.Address" class="text-gray-content ml-2">查無資料</p>
                     </div>
-                    <p class="text-gray-content">
-                      紫坪位在綠島最南方，從附近的步道，可通往海岸邊的潟湖。此處是由珊瑚礁構成的潮池，也是綠島著名的潟湖所在地，有全綠島最完整的潟湖地形以及珊瑚礁植群，更有茂盛的植物水芫花和珍貴的陸寄居蟹。
-                    </p>
-                    <div class="grid justify-end pb-5 pt-6 md:pt-0">
+                    <p class="text-gray-content">{{ picture.Description }}</p>
+                    <p v-if="!picture.Description" class="text-gray-content">查無景點特色說明</p>
+                    <div class="grid justify-start pt-6 md:pt-0">
                       <div class="items-center flex cursor-pointer">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">相片(12)></p>
+                        <p class="text-blue-main ml-2">相片</p>
                       </div>
                     </div>
                     <!-- 圖片 -->
@@ -372,15 +273,7 @@ function GetAuthorizationHeader() {
                     </div>
                     <!-- 電話等 -->
                     <div
-                      class="
-                        grid grid-cols-2
-                        md:grid-cols-4
-                        grid-flow-row
-                        place-items-center
-                        md:place-items-start
-                        py-5
-                        gap-y-5
-                      "
+                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
                     >
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
@@ -388,15 +281,17 @@ function GetAuthorizationHeader() {
                       </div>
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">免費入場</p>
+                        <p class="text-blue-main ml-2">{{ picture.TicketInfo }}</p>
+                        <p v-if="!picture.TicketInfo" class="text-blue-main ml-2">查無票價資訊</p>
                       </div>
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">02-1154-7789</p>
+                        <p class="text-blue-main ml-2">{{ picture.Phone }}</p>
+                        <p v-if="!picture.Phone" class="text-blue-main ml-2">查無景點服務電話</p>
                       </div>
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">自然風景類</p>
+                        <p class="text-blue-main ml-2">{{ picture.Class1 }}</p>
                       </div>
                     </div>
                   </div>
@@ -417,74 +312,34 @@ function GetAuthorizationHeader() {
       <div class="flex overflow-auto no-scrollbar justify-between">
         <div>
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
-            <img
-              class="object-cover w-full h-full"
-              src="@/assets/images/homeType1.jpg"
-            />
+            <img class="object-cover w-full h-full" src="@/assets/images/homeType1.jpg" />
           </div>
-          <div
-            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
-          >
-            年度活動
-          </div>
+          <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">自然風景</div>
         </div>
         <div>
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
-            <img
-              class="object-cover w-full h-full"
-              src="@/assets/images/homeType2.jpg"
-            />
+            <img class="object-cover w-full h-full" src="@/assets/images/homeType2.jpg" />
           </div>
-          <div
-            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
-          >
-            藝文活動
-          </div>
+          <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">體育健身</div>
         </div>
         <div>
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
-            <img
-              class="object-cover w-full h-full"
-              src="@/assets/images/homeType3.jpg"
-            />
+            <img class="object-cover w-full h-full" src="@/assets/images/homeType3.jpg" />
           </div>
-          <div
-            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
-          >
-            節慶活動
-          </div>
+          <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">遊憩類</div>
         </div>
         <div>
           <div class="card shadow-xl w-[256px] h-[328px] mr-20">
-            <img
-              class="object-cover w-full h-full"
-              src="@/assets/images/homeType4.jpg"
-            />
+            <img class="object-cover w-full h-full" src="@/assets/images/homeType4.jpg" />
           </div>
-          <div
-            class="text-center w-[256px] mt-7 text-xl text-black-main font-bold"
-          >
-            其他
-          </div>
+          <div class="text-center w-[256px] mt-7 text-xl text-black-main font-bold">古蹟類</div>
         </div>
       </div>
     </div>
   </div>
   <!-- footer img -->
-  <div
-    class="
-      bg-footer
-      h-[332px]
-      w-full
-      bg-cover
-      grid
-      place-items-center
-      text-center
-    "
-  >
-    <span
-      class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl"
-    >
+  <div class="bg-footer h-[332px] w-full bg-cover grid place-items-center text-center">
+    <span class="text-white font-bold text-xl md:text-3xl filter drop-shadow-3xl">
       <p>“To travel is to live”</p>
       <br />
       <p>– Hans Christian Anderson-</p>
