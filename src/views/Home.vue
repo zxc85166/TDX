@@ -250,7 +250,7 @@ function GetAuthorizationHeader() {
                 @click="centerDialogVisible = true"
               >了解更多</label>
             </div>
-            <el-dialog v-model="centerDialogVisible" title="Warning" width="50%" center>
+            <el-dialog v-model="centerDialogVisible" :title="picture.Name" width="50%" center>
               <!-- modal內容 -->
               <div class="overflow-scroll max-h-[30rem]">
                 <h1 class="text-2xl">{{ picture.Name }}</h1>
