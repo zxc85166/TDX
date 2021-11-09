@@ -57,7 +57,7 @@ const selectedCity = ref(cities[0]);
 const getSpeedQuery = (type) => {
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CLevel%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=3&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CLevel%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=12&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
@@ -81,7 +81,7 @@ function getAttractions() {
   const type = selectedType.value.value;
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CLevel%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=3&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CLevel%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=12&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
