@@ -6,7 +6,7 @@ import "./tailwind.css";
 import App from "./App.vue";
 import { routes } from "./routes.js";
 import { createRouter, createWebHistory } from "vue-router";
-// import messages from "@intlify/vite-plugin-vue-i18n/messages";
+
 import KR from "@/locales/KR.json";
 import zh_TW from "@/locales/zh_TW.json";
 

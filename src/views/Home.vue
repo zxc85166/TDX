@@ -11,10 +11,10 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
-
 const { t } = useI18n();
 //顯示開關
 const noData = ref(true); //現有無資料
+const centerDialogVisible = ref(false);
 // api參數儲存區
 const pictureURL = ref([]);
 //
@@ -100,7 +100,6 @@ function getAttractions() {
 function GetAuthorizationHeader() {
   var AppID = "2d59acd2cea44ff7b241a386c39ab6f7";
   var AppKey = "yMrGHJnuiwFHwqspCCBUVqyjCD0";
-
   var GMTString = new Date().toGMTString();
   var ShaObj = new jsSHA("SHA-1", "TEXT");
   ShaObj.setHMACKey(AppKey, "TEXT");
@@ -244,82 +243,77 @@ function GetAuthorizationHeader() {
                 <p v-if="!picture.Address" class="text-gray-content ml-2">查無資料</p>
               </div>
             </div>
-            <!-- modal  -->
-            <div class="justify-center card-actions">
+            <!-- 測試 -->
+            <div class="flex justify-center pt-4">
               <label
-                for="my-modal-2"
                 class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
+                @click="centerDialogVisible = true"
               >了解更多</label>
-              <input type="checkbox" id="my-modal-2" class="modal-toggle" />
-              <div class="modal">
-                <div class="modal-box max-w-3xl rounded-lg">
-                  <div class="modal-action mt-0">
-                    <label
-                      for="my-modal-2"
-                      class="bg-gray-500 hover:bg-gray-400 rounded h-8 w-8 grid place-items-center cursor-pointer"
-                    >
-                      <XIcon class="h-5 w-5 text-white" />
-                    </label>
+            </div>
+            <el-dialog v-model="centerDialogVisible" title="Warning" width="50%" center>
+              <!-- modal內容 -->
+              <div class="overflow-scroll max-h-[30rem]">
+                <h1 class="text-2xl">{{ picture.Name }}</h1>
+                <div class="flex items-center py-5">
+                  <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
+                  <p class="text-gray-content ml-2">{{ picture.Address }}</p>
+                  <p v-if="!picture.Address" class="text-gray-content ml-2">查無資料</p>
+                </div>
+                <p class="text-gray-content">{{ picture.Description }}</p>
+                <p v-if="!picture.Description" class="text-gray-content">查無景點特色說明</p>
+                <div class="grid justify-start pt-6 md:pt-0">
+                  <div class="items-center flex cursor-pointer">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">相片</p>
                   </div>
-                  <!-- modal內容 -->
-                  <div class="overflow-scroll max-h-[30rem]">
-                    <h1 class="text-2xl">{{ picture.Name }}</h1>
-                    <div class="flex items-center py-5">
-                      <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-                      <p class="text-gray-content ml-2">{{ picture.Address }}</p>
-                      <p v-if="!picture.Address" class="text-gray-content ml-2">查無資料</p>
-                    </div>
-                    <p class="text-gray-content">{{ picture.Description }}</p>
-                    <p v-if="!picture.Description" class="text-gray-content">查無景點特色說明</p>
-                    <div class="grid justify-start pt-6 md:pt-0">
-                      <div class="items-center flex cursor-pointer">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">相片</p>
-                      </div>
-                    </div>
-                    <!-- 圖片 -->
-                    <div class="grid">
-                      <div class="row-span-2 col-span-3 md:col-span-2">
-                        <img
-                          v-if="picture.Picture.PictureUrl1"
-                          class="object-cover w-full h-full"
-                          :src="picture.Picture.PictureUrl1"
-                        />
+                </div>
+                <!-- 圖片 -->
+                <div class="grid">
+                  <div class="row-span-2 col-span-3 md:col-span-2">
+                    <img
+                      v-if="picture.Picture.PictureUrl1"
+                      class="object-cover w-full h-full"
+                      :src="picture.Picture.PictureUrl1"
+                    />
 
-                        <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
-                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
-                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- 電話等 -->
-                    <div
-                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
-                    >
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p v-if="picture.Level" class="text-blue-main ml-2">古蹟分級：{{ picture.Level }}</p>
-                        <p v-if="!picture.Level" class="text-blue-main ml-2">查無古蹟分級資訊</p>
-                      </div>
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">{{ picture.TicketInfo }}</p>
-                        <p v-if="!picture.TicketInfo" class="text-blue-main ml-2">查無票價資訊</p>
-                      </div>
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">{{ picture.Phone }}</p>
-                        <p v-if="!picture.Phone" class="text-blue-main ml-2">查無景點服務電話</p>
-                      </div>
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">{{ picture.Class1 }}</p>
-                      </div>
+                    <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
+                      <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                      <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
                     </div>
                   </div>
                 </div>
+                <!-- 電話等 -->
+                <div
+                  class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
+                >
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p v-if="picture.Level" class="text-blue-main ml-2">古蹟分級：{{ picture.Level }}</p>
+                    <p v-if="!picture.Level" class="text-blue-main ml-2">查無古蹟分級資訊</p>
+                  </div>
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">{{ picture.TicketInfo }}</p>
+                    <p v-if="!picture.TicketInfo" class="text-blue-main ml-2">查無票價資訊</p>
+                  </div>
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">{{ picture.Phone }}</p>
+                    <p v-if="!picture.Phone" class="text-blue-main ml-2">查無景點服務電話</p>
+                  </div>
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">{{ picture.Class1 }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="centerDialogVisible = false">Cancel</el-button>
+                  <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+                </span>
+              </template>
+            </el-dialog>
           </div>
         </div>
       </div>
