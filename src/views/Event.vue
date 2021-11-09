@@ -15,6 +15,9 @@ import {
 const { t } = useI18n();
 //顯示開關
 const noData = ref(true); //現有無資料
+const link = (e) => { //在vue中打開外部網站連結
+  window.open(e);
+}
 // api參數儲存區
 const pictureURL = ref([]);
 //
@@ -262,18 +265,39 @@ function GetAuthorizationHeader() {
                     <div class="grid grid-rows-2 grid-cols-3 gap-4">
                       <div class="row-span-2 col-span-3 md:col-span-2">
                         <img
-                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                          v-if="picture.Picture.PictureUrl1"
+                          class="object-cover w-full h-full"
+                          :src="picture.Picture.PictureUrl1"
                         />
+
+                        <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
+                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
+                        </div>
                       </div>
                       <div class="row-span-1 col-span-1 hidden md:grid">
                         <img
-                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                          v-if="picture.Picture.PictureUrl2"
+                          class="object-cover w-full h-full"
+                          :src="picture.Picture.PictureUrl2"
                         />
+
+                        <div v-if="!picture.Picture.PictureUrl2" class="grid place-items-center">
+                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
+                        </div>
                       </div>
                       <div class="row-span-1 col-span-1 hidden md:grid">
                         <img
-                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                          v-if="picture.Picture.PictureUrl3"
+                          class="object-cover w-full h-full"
+                          :src="picture.Picture.PictureUrl3"
                         />
+
+                        <div v-if="!picture.Picture.PictureUrl3" class="grid place-items-center">
+                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
+                        </div>
                       </div>
                     </div>
                     <!-- 電話等 -->
@@ -282,9 +306,10 @@ function GetAuthorizationHeader() {
                     >
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">
-                          <a href="{{ picture.WebsiteUrl }} " target="_blank">網址</a>
+                        <p v-if="picture.WebsiteUrl" class="text-blue-main ml-2 cursor-pointer">
+                          <span class="link-url" @click="link(picture.WebsiteUrl)">官方網站連結</span>
                         </p>
+                        <p v-if="!picture.WebsiteUrl" class="text-blue-main ml-2">查無官方網站連結</p>
                       </div>
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />

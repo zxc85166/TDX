@@ -59,7 +59,7 @@ function getAttractions() {
   const type = selectedType.value.value;
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=3&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${city}?$select=Name%2CAddress%2CTicketInfo%2CPhone%2CLevel%2CPicture%2CDescription%2COpenTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=3&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
@@ -238,7 +238,7 @@ function GetAuthorizationHeader() {
                     </label>
                   </div>
                   <!-- modal內容 -->
-                  <div>
+                  <div class="overflow-scroll max-h-[30rem]">
                     <h1 class="text-2xl">{{ picture.Name }}</h1>
                     <div class="flex items-center py-5">
                       <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
@@ -254,21 +254,18 @@ function GetAuthorizationHeader() {
                       </div>
                     </div>
                     <!-- 圖片 -->
-                    <div class="grid grid-rows-2 grid-cols-3 gap-4">
+                    <div class="grid">
                       <div class="row-span-2 col-span-3 md:col-span-2">
                         <img
-                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                          v-if="picture.Picture.PictureUrl1"
+                          class="object-cover w-full h-full"
+                          :src="picture.Picture.PictureUrl1"
                         />
-                      </div>
-                      <div class="row-span-1 col-span-1 hidden md:grid">
-                        <img
-                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                        />
-                      </div>
-                      <div class="row-span-1 col-span-1 hidden md:grid">
-                        <img
-                          src="https://images.pexels.com/photos/10069550/pexels-photo-10069550.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                        />
+
+                        <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
+                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
+                        </div>
                       </div>
                     </div>
                     <!-- 電話等 -->
@@ -277,7 +274,8 @@ function GetAuthorizationHeader() {
                     >
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">全天候開放</p>
+                        <p v-if="picture.Level" class="text-blue-main ml-2">古蹟分級：{{ picture.Level }}</p>
+                        <p v-if="!picture.Level" class="text-blue-main ml-2">查無古蹟分級資訊</p>
                       </div>
                       <div class="flex">
                         <PhotographIcon class="h-5 w-5 text-blue-main" />
