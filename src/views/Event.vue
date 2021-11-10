@@ -2,7 +2,7 @@
 import { useI18n } from "vue-i18n";
 import axios from "axios";
 import { LocationMarkerIcon, PhotographIcon } from "@heroicons/vue/solid";
-import { ClockIcon, XIcon } from "@heroicons/vue/outline";
+import { ClockIcon } from "@heroicons/vue/outline";
 import jsSHA from "jssha";
 import { ref } from "vue";
 import {
@@ -104,8 +104,9 @@ function getAttractions() {
 }
 // API 驗證用
 function GetAuthorizationHeader() {
-  const AppID = process.env.VUE_APP_APPID
-  const AppKey = process.env.VUE_APP_APPKEY
+  var AppID = "2d59acd2cea44ff7b241a386c39ab6f7";
+  var AppKey = "yMrGHJnuiwFHwqspCCBUVqyjCD0";
+  console.log(import.meta.env.VITE_APP_BASE_API);
   var GMTString = new Date().toGMTString();
   var ShaObj = new jsSHA("SHA-1", "TEXT");
   ShaObj.setHMACKey(AppKey, "TEXT");
