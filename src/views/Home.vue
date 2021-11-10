@@ -252,12 +252,7 @@ function GetAuthorizationHeader() {
                 @click="picture.visibility = true"
               >了解更多</label>
             </div>
-            <el-dialog
-              v-model="picture.visibility"
-              :title="picture.Name"
-              width="50%"
-              fullscreen="true"
-            >
+            <el-dialog v-model="picture.visibility" :title="picture.Name" width="50%">
               <!-- modal內容 -->
               <div class="overflow-y-auto h-full">
                 <div class="flex items-center py-5">
