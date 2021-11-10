@@ -104,9 +104,8 @@ function getAttractions() {
 }
 // API 驗證用
 function GetAuthorizationHeader() {
-  var AppID = "2d59acd2cea44ff7b241a386c39ab6f7";
-  var AppKey = "yMrGHJnuiwFHwqspCCBUVqyjCD0";
-  console.log(import.meta.env.VITE_APP_BASE_API);
+  var AppID = (import.meta.env.VITE_APP_AppID)
+  var AppKey = (import.meta.env.VITE_APP_AppKey)
   var GMTString = new Date().toGMTString();
   var ShaObj = new jsSHA("SHA-1", "TEXT");
   ShaObj.setHMACKey(AppKey, "TEXT");
