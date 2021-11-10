@@ -94,6 +94,7 @@ function getAttractions() {
         noData.value = true;
       } else {
         noData.value = false;
+        document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
       }
     })
     .catch((error) => console.log("error", error));
