@@ -14,7 +14,6 @@ import {
 const { t } = useI18n();
 //顯示開關
 const noData = ref(true); //現有無資料
-const centerDialogVisible = ref(false);
 // api參數儲存區
 const pictureURL = ref([]);
 //
@@ -87,6 +86,9 @@ function getAttractions() {
     .then((res) => {
       const data = res.data;
       pictureURL.value = data;
+      for (let index = 0; index < pictureURL.value.length; index++) {
+        pictureURL.value[index].visibility = false;
+      }
       if (data.length === 0) {
         alert("查無該條件資料");
         noData.value = true;
@@ -235,25 +237,29 @@ function GetAuthorizationHeader() {
               <div class="flex items-center">
                 <ClockIcon class="md:h-5 md:w-5 h-4 w-4 mr-2" />
                 <span class="text-gray-content text-sm">{{ picture.OpenTime }}</span>
-                <span v-if="!picture.OpenTime" class="text-gray-content text-sm">查無資料</span>
+                <span v-if="!picture.OpenTime" class="text-gray-content text-sm">查無開放時間</span>
               </div>
               <div class="flex items-center pt-2">
                 <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
                 <p class="text-gray-content ml-2">{{ picture.Address }}</p>
-                <p v-if="!picture.Address" class="text-gray-content ml-2">查無資料</p>
+                <p v-if="!picture.Address" class="text-gray-content ml-2">查無地點資料</p>
               </div>
             </div>
-            <!-- 測試 -->
+            <!-- element plus -->
             <div class="flex justify-center pt-4">
               <label
                 class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
-                @click="centerDialogVisible = true"
+                @click="picture.visibility = true"
               >了解更多</label>
             </div>
-            <el-dialog v-model="centerDialogVisible" :title="picture.Name" width="50%" center>
+            <el-dialog
+              v-model="picture.visibility"
+              :title="picture.Name"
+              width="50%"
+              fullscreen="true"
+            >
               <!-- modal內容 -->
-              <div class="overflow-scroll max-h-[30rem]">
-                <h1 class="text-2xl">{{ picture.Name }}</h1>
+              <div class="overflow-y-auto h-full">
                 <div class="flex items-center py-5">
                   <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
                   <p class="text-gray-content ml-2">{{ picture.Address }}</p>
@@ -261,7 +267,7 @@ function GetAuthorizationHeader() {
                 </div>
                 <p class="text-gray-content">{{ picture.Description }}</p>
                 <p v-if="!picture.Description" class="text-gray-content">查無景點特色說明</p>
-                <div class="grid justify-start pt-6 md:pt-0">
+                <div class="grid justify-start pt-6">
                   <div class="items-center flex cursor-pointer">
                     <PhotographIcon class="h-5 w-5 text-blue-main" />
                     <p class="text-blue-main ml-2">相片</p>
@@ -307,12 +313,6 @@ function GetAuthorizationHeader() {
                   </div>
                 </div>
               </div>
-              <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="centerDialogVisible = false">Cancel</el-button>
-                  <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-                </span>
-              </template>
             </el-dialog>
           </div>
         </div>

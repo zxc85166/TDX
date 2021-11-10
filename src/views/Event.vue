@@ -90,6 +90,9 @@ function getAttractions() {
     .then((res) => {
       const data = res.data;
       pictureURL.value = data;
+      for (let index = 0; index < pictureURL.value.length; index++) {
+        pictureURL.value[index].visibility = false;
+      }
       if (data.length === 0) {
         alert("查無該條件資料");
         noData.value = true;
@@ -253,107 +256,101 @@ function GetAuthorizationHeader() {
               </div>
             </div>
             <!-- modal  -->
-            <div class="justify-center card-actions">
+            <!-- element plus -->
+            <div class="flex justify-center pt-4">
               <label
-                for="my-modal-2"
                 class="ring-4 ring-blue-main hover:bg-blue-main hover:text-white rounded text-blue-main w-2/3 modal-button text-center cursor-pointer"
+                @click="picture.visibility = true"
               >了解更多</label>
-              <input type="checkbox" id="my-modal-2" class="modal-toggle" />
-              <div class="modal">
-                <div class="modal-box max-w-3xl rounded-lg">
-                  <div class="modal-action mt-0">
-                    <label
-                      for="my-modal-2"
-                      class="bg-gray-500 hover:bg-gray-400 rounded h-8 w-8 grid place-items-center cursor-pointer"
-                    >
-                      <XIcon class="h-5 w-5 text-white" />
-                    </label>
+            </div>
+            <el-dialog
+              v-model="picture.visibility"
+              :title="picture.Name"
+              width="50%"
+              fullscreen="true"
+            >
+              <!-- modal內容 -->
+              <div class="overflow-y-auto h-full">
+                <div class="flex items-center py-5">
+                  <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
+                  <p class="text-gray-content ml-2">{{ picture.Address }}</p>
+                  <p v-if="!picture.Address" class="text-gray-content ml-2">查無地點資料</p>
+                </div>
+                <p class="text-gray-content">{{ picture.Description }}</p>
+                <p v-if="!picture.Description" class="text-gray-content">查無說明</p>
+                <div class="grid justify-start pt-6">
+                  <div class="items-center flex cursor-pointer">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">相片</p>
                   </div>
-                  <!-- modal內容 -->
-                  <div class="overflow-scroll max-h-[30rem]">
-                    <h1 class="text-2xl">{{ picture.Name }}</h1>
-                    <div class="flex items-center py-5">
-                      <LocationMarkerIcon class="h-5 w-5 text-blue-main" />
-                      <p class="text-gray-content ml-2">{{ picture.Address }}</p>
-                      <p v-if="!picture.Address" class="text-gray-content ml-2">查無地點資料</p>
-                    </div>
-                    <p class="text-gray-content">{{ picture.Description }}</p>
-                    <p v-if="!picture.Description" class="text-gray-content">查無說明</p>
-                    <div class="grid justify-start pt-6 md:pt-0">
-                      <div class="items-center flex cursor-pointer">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">相片</p>
-                      </div>
-                    </div>
-                    <!-- 圖片 -->
-                    <div class="grid grid-rows-2 grid-cols-3 gap-4">
-                      <div class="row-span-2 col-span-3 md:col-span-2">
-                        <img
-                          v-if="picture.Picture.PictureUrl1"
-                          class="object-cover w-full h-full"
-                          :src="picture.Picture.PictureUrl1"
-                        />
+                </div>
+                <!-- 圖片 -->
+                <div class="grid grid-flow-row md:grid-rows-2 grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="col-span-1 md:row-span-2 md:col-span-2">
+                    <img
+                      v-if="picture.Picture.PictureUrl1"
+                      class="object-cover w-full h-full"
+                      :src="picture.Picture.PictureUrl1"
+                    />
 
-                        <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
-                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
-                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
-                        </div>
-                      </div>
-                      <div class="row-span-1 col-span-1 hidden md:grid">
-                        <img
-                          v-if="picture.Picture.PictureUrl2"
-                          class="object-cover w-full h-full"
-                          :src="picture.Picture.PictureUrl2"
-                        />
-
-                        <div v-if="!picture.Picture.PictureUrl2" class="grid place-items-center">
-                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
-                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
-                        </div>
-                      </div>
-                      <div class="row-span-1 col-span-1 hidden md:grid">
-                        <img
-                          v-if="picture.Picture.PictureUrl3"
-                          class="object-cover w-full h-full"
-                          :src="picture.Picture.PictureUrl3"
-                        />
-
-                        <div v-if="!picture.Picture.PictureUrl3" class="grid place-items-center">
-                          <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
-                          <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
-                        </div>
-                      </div>
+                    <div v-if="!picture.Picture.PictureUrl1" class="grid place-items-center">
+                      <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                      <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
                     </div>
-                    <!-- 電話等 -->
-                    <div
-                      class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
-                    >
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p v-if="picture.WebsiteUrl" class="text-blue-main ml-2 cursor-pointer">
-                          <span class="link-url" @click="link(picture.WebsiteUrl)">官方網站連結</span>
-                        </p>
-                        <p v-if="!picture.WebsiteUrl" class="text-blue-main ml-2">查無官方網站連結</p>
-                      </div>
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">{{ picture.Charge }}</p>
-                        <p v-if="!picture.Charge" class="text-blue-main ml-2">查無票價資訊</p>
-                      </div>
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">{{ picture.Phone }}</p>
-                        <p v-if="!picture.Phone" class="text-blue-main ml-2">查無景點服務電話</p>
-                      </div>
-                      <div class="flex">
-                        <PhotographIcon class="h-5 w-5 text-blue-main" />
-                        <p class="text-blue-main ml-2">{{ picture.Class1 }}</p>
-                      </div>
+                  </div>
+                  <div class="col-span-1">
+                    <img
+                      v-if="picture.Picture.PictureUrl2"
+                      class="object-cover w-full h-full"
+                      :src="picture.Picture.PictureUrl2"
+                    />
+
+                    <div v-if="!picture.Picture.PictureUrl2" class="grid place-items-center">
+                      <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                      <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
+                    </div>
+                  </div>
+                  <div class="col-span-1">
+                    <img
+                      v-if="picture.Picture.PictureUrl3"
+                      class="object-cover w-full h-full"
+                      :src="picture.Picture.PictureUrl3"
+                    />
+
+                    <div v-if="!picture.Picture.PictureUrl3" class="grid place-items-center">
+                      <img class="w-[80px] mt-12" src="@/assets/images/logo.png" />
+                      <span class="text-lg font-bold text-blue-main mt-3">Travel Taiwan</span>
                     </div>
                   </div>
                 </div>
+                <!-- 電話等 -->
+                <div
+                  class="grid grid-cols-2 md:grid-cols-4 grid-flow-row place-items-center md:place-items-start py-5 gap-y-5"
+                >
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p v-if="picture.WebsiteUrl" class="text-blue-main ml-2 cursor-pointer">
+                      <span class="link-url" @click="link(picture.WebsiteUrl)">官方網站連結</span>
+                    </p>
+                    <p v-if="!picture.WebsiteUrl" class="text-blue-main ml-2">查無官方網站連結</p>
+                  </div>
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">{{ picture.Charge }}</p>
+                    <p v-if="!picture.Charge" class="text-blue-main ml-2">查無票價資訊</p>
+                  </div>
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">{{ picture.Phone }}</p>
+                    <p v-if="!picture.Phone" class="text-blue-main ml-2">查無景點服務電話</p>
+                  </div>
+                  <div class="flex">
+                    <PhotographIcon class="h-5 w-5 text-blue-main" />
+                    <p class="text-blue-main ml-2">{{ picture.Class1 }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </el-dialog>
           </div>
         </div>
       </div>
