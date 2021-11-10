@@ -190,7 +190,7 @@ function GetAuthorizationHeader() {
           </Listbox>
         </div>
         <!-- 搜尋按鈕 -->
-        <div class="pt-1" @click="getAttractions()">
+        <div class="pt-1" @click.prevent="getAttractions()">
           <a href="#">
             <img src="@/assets/images/search.png" alt="搜尋按鈕" />
           </a>
@@ -262,12 +262,7 @@ function GetAuthorizationHeader() {
                 @click="picture.visibility = true"
               >了解更多</label>
             </div>
-            <el-dialog
-              v-model="picture.visibility"
-              :title="picture.Name"
-              width="50%"
-              fullscreen="true"
-            >
+            <el-dialog v-model="picture.visibility" :title="picture.Name" width="80%">
               <!-- modal內容 -->
               <div class="overflow-y-auto h-full">
                 <div class="flex items-center py-5">
