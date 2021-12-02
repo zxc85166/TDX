@@ -82,6 +82,7 @@ const getSpeedQuery = (type) => {
         selectedType.value = types[0];
         selectedCity.value = cities[0];
         handleCurrentChange(1);
+        currentPage.value = 1;
       }
     })
     .catch((error) => console.log("error", error));
@@ -107,6 +108,7 @@ function getAttractions() {
       } else {
         noData.value = false;
         handleCurrentChange(1);
+        currentPage.value = 1;
         document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
       }
     })
