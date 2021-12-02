@@ -1,5 +1,4 @@
 <script setup>
-import { useI18n } from "vue-i18n";
 import axios from "axios";
 import { LocationMarkerIcon, PhotographIcon } from "@heroicons/vue/solid";
 import { ClockIcon } from "@heroicons/vue/outline";
@@ -11,8 +10,16 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
-
-const { t } = useI18n();
+//當前分頁頁數
+const currentPage = ref(1);
+const handleCurrentChange = (val) => {
+  console.log(`current page: ${val}`);
+  const start = val * 12 - 12,
+    end = val * 12;
+  paginatedData.value = pictureURL.value.slice(start, end);
+  document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
+}
+const paginatedData = ref([]);
 //顯示開關
 const noData = ref(true); //現有無資料
 const link = (e) => { //在vue中打開外部網站連結
@@ -60,7 +67,7 @@ const selectedCity = ref(cities[0]);
 const getSpeedQuery = (type) => {
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?$select=Name%2CAddress%2CCharge%2CPhone%2CPicture%2CDescription%2CWebsiteUrl%2CStartTime%2CEndTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=12&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?$select=Name%2CAddress%2CCharge%2CPhone%2CPicture%2CDescription%2CWebsiteUrl%2CStartTime%2CEndTime%2CClass1&$filter=contains(Class1%2C'${type}')&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
@@ -74,6 +81,7 @@ const getSpeedQuery = (type) => {
         document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
         selectedType.value = types[0];
         selectedCity.value = cities[0];
+        handleCurrentChange(1);
       }
     })
     .catch((error) => console.log("error", error));
@@ -84,7 +92,7 @@ function getAttractions() {
   const type = selectedType.value.value;
   axios({
     method: "get",
-    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity/${city}?$select=Name%2CAddress%2CCharge%2CPhone%2CPicture%2CDescription%2CWebsiteUrl%2CStartTime%2CEndTime%2CClass1&$filter=contains(Class1%2C'${type}')&$top=12&$format=JSON`,
+    url: `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity/${city}?$select=Name%2CAddress%2CCharge%2CPhone%2CPicture%2CDescription%2CWebsiteUrl%2CStartTime%2CEndTime%2CClass1&$filter=contains(Class1%2C'${type}')&$format=JSON`,
     headers: GetAuthorizationHeader(),
   })
     .then((res) => {
@@ -98,6 +106,7 @@ function getAttractions() {
         noData.value = true;
       } else {
         noData.value = false;
+        handleCurrentChange(1);
         document.getElementById("showRes").scrollIntoView({ behavior: "smooth" });
       }
     })
@@ -217,7 +226,7 @@ function GetAuthorizationHeader() {
       <!-- cards -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-y-16">
         <div
-          v-for="(picture, index) in pictureURL"
+          v-for="(picture, index) in paginatedData"
           :key="picture.index"
           class="card bordered shadow-lg max-w-[350px]"
         >
@@ -349,6 +358,16 @@ function GetAuthorizationHeader() {
           </div>
         </div>
       </div>
+      <el-pagination
+        background
+        :hide-on-single-page="noData"
+        v-model:currentPage="currentPage"
+        :page-size="12"
+        layout="total, prev, pager, next, jumper"
+        :total="pictureURL.length"
+        @current-change="handleCurrentChange"
+        class="flex justify-center items-center my-5 max-w-full overflow-x-auto h-full"
+      ></el-pagination>
     </div>
     <!-- 活動類別 -->
     <div class="mb-28">
